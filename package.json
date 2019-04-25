@@ -1,0 +1,9 @@
+{
+  "name": "amazonpay-alexa-utils",
+  "version": "1.0.0",
+  "description": "Amazon Pay for Alexa Skills utilities",
+  "main": "index.js",
+  "author": "daneu",
+  "license": "APache",
+  "private": false
+}
