@@ -2,7 +2,7 @@
   "name": "amazonpay-alexa-utils",
   "version": "1.0.0",
   "description": "Amazon Pay for Alexa Skills utilities",
-  "main": "index.js",
+  "main": "AmazonPay.js",
   "scripts": {
     "build": "tsc",
     "test": "jest --config jestconfig.json",
@@ -22,6 +22,7 @@
     "ts-jest": "^24.0.2",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "ask-sdk-model": "^1.15.0"
   }
 }
