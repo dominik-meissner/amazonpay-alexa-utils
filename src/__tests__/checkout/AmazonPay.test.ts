@@ -1,48 +1,44 @@
 import { AmazonPay } from '../../AmazonPay';
-import {LedgerCurrency} from '../../model/LedgerCurrency'
-import {SandboxSetting} from '../../model/SandboxSetting'
+import { LedgerCurrency } from '../../model/LedgerCurrency';
+import { SandboxSetting } from '../../model/SandboxSetting';
 
 test('setupPayload full', () => {
-    const payload = AmazonPay
-                        .setupPayload(/*version*/ '2')
-                        .withSellerId('ABCD1234ADS')
-                        .withCountryOfEstablishment('DE')
-                        .withLedgerCurrency(LedgerCurrency.EUR)
-                        .withCheckoutLanguage('en_GB')
-                        .shippingNeeded(true)
-                        //.withBillingAgreementAttributes(/* TODO fake */ 'attr')
-                        .onSandbox(new SandboxSetting('mysandbox@email.test'))
-                        .build();
-    expect(payload['@type']).toBe('SetupAmazonPayRequest');
-    expect(payload['@version']).toBe('2');
-    expect(payload.checkoutLanguage).toBe('en_GB');
-    expect(payload.sellerId).toBe('ABCD1234ADS');
-    expect(payload.countryOfEstablishment).toBe('DE');
-    expect(payload.ledgerCurrency).toBe(LedgerCurrency.EUR);
-    expect(payload.needAmazonShippingAddress).toBe(true);
-    expect(payload.sandboxMode).toBe(true);
-    expect(payload.sandboxCustomerEmailId).toBe('mysandbox@email.test');
+  const payload = AmazonPay.setupPayload(/*version*/ '2')
+    .withSellerId('ABCD1234ADS')
+    .withCountryOfEstablishment('DE')
+    .withLedgerCurrency(LedgerCurrency.EUR)
+    .withCheckoutLanguage('en_GB')
+    .shippingNeeded(true)
+    //.withBillingAgreementAttributes(/* TODO fake */ 'attr')
+    .onSandbox(new SandboxSetting('mysandbox@email.test'))
+    .build();
+  expect(payload['@type']).toBe('SetupAmazonPayRequest');
+  expect(payload['@version']).toBe('2');
+  expect(payload.checkoutLanguage).toBe('en_GB');
+  expect(payload.sellerId).toBe('ABCD1234ADS');
+  expect(payload.countryOfEstablishment).toBe('DE');
+  expect(payload.ledgerCurrency).toBe(LedgerCurrency.EUR);
+  expect(payload.needAmazonShippingAddress).toBe(true);
+  expect(payload.sandboxMode).toBe(true);
+  expect(payload.sandboxCustomerEmailId).toBe('mysandbox@email.test');
 });
-
 
 test('setupPayload minimal', () => {
-    const payload = AmazonPay
-                        .setupPayload(/*version*/ '2')
-                        .withSellerId('ABCD1234ADS')
-                        .withCountryOfEstablishment('DE')
-                        .withLedgerCurrency(LedgerCurrency.EUR)
-                        .build();
-    expect(payload['@type']).toBe('SetupAmazonPayRequest');
-    expect(payload['@version']).toBe('2');
-    expect(payload.checkoutLanguage).toBeUndefined();
-    expect(payload.sellerId).toBe('ABCD1234ADS');
-    expect(payload.countryOfEstablishment).toBe('DE');
-    expect(payload.ledgerCurrency).toBe(LedgerCurrency.EUR);
-    expect(payload.needAmazonShippingAddress).toBe(false);
-    expect(payload.sandboxMode).toBeUndefined();
-    expect(payload.sandboxCustomerEmailId).toBeUndefined();
+  const payload = AmazonPay.setupPayload(/*version*/ '2')
+    .withSellerId('ABCD1234ADS')
+    .withCountryOfEstablishment('DE')
+    .withLedgerCurrency(LedgerCurrency.EUR)
+    .build();
+  expect(payload['@type']).toBe('SetupAmazonPayRequest');
+  expect(payload['@version']).toBe('2');
+  expect(payload.checkoutLanguage).toBeUndefined();
+  expect(payload.sellerId).toBe('ABCD1234ADS');
+  expect(payload.countryOfEstablishment).toBe('DE');
+  expect(payload.ledgerCurrency).toBe(LedgerCurrency.EUR);
+  expect(payload.needAmazonShippingAddress).toBe(false);
+  expect(payload.sandboxMode).toBeUndefined();
+  expect(payload.sandboxCustomerEmailId).toBeUndefined();
 });
-
 
 /*
 
