@@ -1,11 +1,11 @@
 export class SandboxSetting {
-  private readonly _email: string;
+  private readonly eMail: string;
 
   constructor(email: string) {
-    this._email = email;
+    this.eMail = email;
   }
 
   get email(): string {
-    return this._email;
+    return this.email;
   }
 }

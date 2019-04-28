@@ -9,122 +9,128 @@ import { BillingAgreementAttributesBuilder } from './BillingAgreementAttributesB
 export class SetupPayloadBuilder {
   private readonly DUMMY: string = 'dummy';
 
-  private readonly _version: string;
-  private readonly _type: string;
+  private readonly version: string;
+  private readonly type: string;
 
-  private _sellerId: string = this.DUMMY;
-  private _countryOfEstablishment: string = this.DUMMY;
-  private _ledgerCurrency: LedgerCurrency = LedgerCurrency.NOT_DEFINED;
-  private _checkoutLanguage: string = this.DUMMY;
-  private _shippingNeeded: boolean = false;
-  private _sandboxSetting: SandboxSetting = new SandboxSetting(this.DUMMY);
-  private _onSandBox: boolean = false;
-  private _billingAgreementAttributes: BillingAgreementAttributes = new BillingAgreementAttributesBuilder(
-    this._version,
+  private sellerId: string = this.DUMMY;
+  private countryOfEstablishment: string = this.DUMMY;
+  private ledgerCurrency: LedgerCurrency = LedgerCurrency.NOT_DEFINED;
+  private checkoutLanguage: string = this.DUMMY;
+  private isShippingNeeded: boolean = false;
+  private sandboxSetting: SandboxSetting = new SandboxSetting(this.DUMMY);
+  private onSandBox: boolean = false;
+  private billingAgreementAttributes: BillingAgreementAttributes = new BillingAgreementAttributesBuilder(
+    this.version,
   ).build();
 
   constructor(version: string) {
     // version can be used to decide for the right fromat in future
-    this._version = version;
-    this._type = 'SetupAmazonPayRequest';
+    this.version = version;
+    this.type = 'SetupAmazonPayRequest';
   }
 
-  withSellerId(sellerId: string): SetupPayloadBuilder {
-    this._sellerId = sellerId;
+  public withSellerId(sellerId: string): SetupPayloadBuilder {
+    this.sellerId = sellerId;
     return this;
   }
 
-  setSellerId(sellerId: string): SetupPayloadBuilder {
+  public setSellerId(sellerId: string): SetupPayloadBuilder {
     return this.withSellerId(sellerId);
   }
 
-  withCountryOfEstablishment(countryOfEstablishment: string): SetupPayloadBuilder {
-    this._countryOfEstablishment = countryOfEstablishment;
+  public withCountryOfEstablishment(countryOfEstablishment: string): SetupPayloadBuilder {
+    this.countryOfEstablishment = countryOfEstablishment;
     return this;
   }
 
-  setCountryOfEstablishment(countryOfEstablishment: string): SetupPayloadBuilder {
+  public setCountryOfEstablishment(countryOfEstablishment: string): SetupPayloadBuilder {
     return this.withCountryOfEstablishment(countryOfEstablishment);
   }
 
-  withLedgerCurrency(currency: LedgerCurrency): SetupPayloadBuilder {
-    this._ledgerCurrency = currency;
+  public withLedgerCurrency(currency: LedgerCurrency): SetupPayloadBuilder {
+    this.ledgerCurrency = currency;
     return this;
   }
 
-  setLedgerCurrency(currency: LedgerCurrency): SetupPayloadBuilder {
+  public setLedgerCurrency(currency: LedgerCurrency): SetupPayloadBuilder {
     return this.withLedgerCurrency(currency);
   }
 
-  withCheckoutLanguage(language: string): SetupPayloadBuilder {
-    this._checkoutLanguage = language;
+  public withCheckoutLanguage(language: string): SetupPayloadBuilder {
+    this.checkoutLanguage = language;
     return this;
   }
 
-  setCheckoutLanguage(language: string): SetupPayloadBuilder {
+  public setCheckoutLanguage(language: string): SetupPayloadBuilder {
     return this.withCheckoutLanguage(language);
   }
 
-  shippingNeeded(needed: boolean): SetupPayloadBuilder {
-    this._shippingNeeded = needed;
+  public shippingNeeded(needed: boolean): SetupPayloadBuilder {
+    this.isShippingNeeded = needed;
     return this;
   }
 
-  withBillingAgreementAttributes(attributes: BillingAgreementAttributes): SetupPayloadBuilder {
-    this._billingAgreementAttributes = attributes;
+  public withBillingAgreementAttributes(attributes: BillingAgreementAttributes): SetupPayloadBuilder {
+    this.billingAgreementAttributes = attributes;
     return this;
   }
 
-  onSandbox(sandboxSetting: SandboxSetting): SetupPayloadBuilder {
-    this._sandboxSetting = sandboxSetting;
-    this._onSandBox = true;
+  public onSandbox(sandboxSetting: SandboxSetting): SetupPayloadBuilder {
+    this.sandboxSetting = sandboxSetting;
+    this.onSandBox = true;
     return this;
   }
 
-  build(): SetupAmazonPayRequest {
-    if (this._sellerId === this.DUMMY) throw new Error('sellerId is required');
-    if (this._ledgerCurrency === LedgerCurrency.NOT_DEFINED) throw new Error('ledgerCurrency is required');
-    if (this._countryOfEstablishment === this.DUMMY) throw new Error('countryOfEstablishment is required');
+  public build(): SetupAmazonPayRequest {
+    if (this.sellerId === this.DUMMY) {
+      throw new Error('sellerId is required');
+    }
+    if (this.ledgerCurrency === LedgerCurrency.NOT_DEFINED) {
+      throw new Error('ledgerCurrency is required');
+    }
+    if (this.countryOfEstablishment === this.DUMMY) {
+      throw new Error('countryOfEstablishment is required');
+    }
 
     let payload = {
-      '@type': this._type,
-      '@version': this._version,
-      sellerId: this._sellerId,
-      countryOfEstablishment: this._countryOfEstablishment,
-      ledgerCurrency: this._ledgerCurrency,
-      needAmazonShippingAddress: this._shippingNeeded,
+      '@type': this.type,
+      '@version': this.version,
       billingAgreementAttributes: {
         '@type': 'BillingAgreementAttributes',
         '@version': '2',
-        sellerNote: '',
         platformId: '',
         sellerBillingAgreementAttributes: {
           '@type': 'SellerBillingAgreementAttributes',
           '@version': '2',
+          customInformation: '',
           sellerBillingAgreementId: '',
           storeName: '',
-          customInformation: '',
         },
+        sellerNote: '',
       },
+      countryOfEstablishment: this.countryOfEstablishment,
+      ledgerCurrency: this.ledgerCurrency,
+      needAmazonShippingAddress: this.isShippingNeeded,
+      sellerId: this.sellerId,
     };
 
     let sandBoxPayload = {};
     let languagePayload = {};
 
-    if (this._onSandBox) {
+    if (this.onSandBox) {
       sandBoxPayload = {
-        sandboxCustomerEmailId: this._sandboxSetting.email,
+        sandboxCustomerEmailId: this.sandboxSetting.email,
         sandboxMode: true,
       };
     }
 
-    if (this._checkoutLanguage !== this.DUMMY) {
+    if (this.checkoutLanguage !== this.DUMMY) {
       languagePayload = {
-        checkoutLanguage: this._checkoutLanguage,
+        checkoutLanguage: this.checkoutLanguage,
       };
     }
 
-    payload = (<any>Object).assign(payload, sandBoxPayload, languagePayload);
+    payload = Object.assign(payload, sandBoxPayload, languagePayload);
 
     return JSON.parse(JSON.stringify(payload));
   }

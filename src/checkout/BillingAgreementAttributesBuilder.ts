@@ -4,115 +4,115 @@ import BillingAgreementAttributes = interfaces.amazonpay.model.v1.BillingAgreeme
 export class BillingAgreementAttributesBuilder {
   private readonly DUMMY: string = 'dummy';
 
-  private readonly _version: string;
-  private readonly _type: string;
+  private readonly version: string;
+  private readonly type: string;
 
   // control flags
-  private _addSellerBillingAgreementAttributes: boolean = false;
-  private _neeToGenerate: boolean = false;
+  private addSellerBillingAgreementAttributes: boolean = false;
+  private neeToGenerate: boolean = false;
 
-  private _sellerNote: string = this.DUMMY;
-  private _platformId: string = this.DUMMY;
+  private sellerNote: string = this.DUMMY;
+  private platformId: string = this.DUMMY;
   // sellerAttributes
-  private _storeName: string = this.DUMMY;
-  private _customInformation: string = this.DUMMY;
-  private _sellerBillingAgreementId: string = this.DUMMY;
+  private storeName: string = this.DUMMY;
+  private customInformation: string = this.DUMMY;
+  private sellerBillingAgreementId: string = this.DUMMY;
 
   constructor(version: string) {
     // version can be used to decide for the right fromat in future
-    this._version = version;
-    this._type = 'BillingAgreementAttributes';
+    this.version = version;
+    this.type = 'BillingAgreementAttributes';
   }
 
-  withSellerNote(sellerNote: string): BillingAgreementAttributesBuilder {
-    this._sellerNote = sellerNote;
-    this._neeToGenerate = true;
+  public withSellerNote(sellerNote: string): BillingAgreementAttributesBuilder {
+    this.sellerNote = sellerNote;
+    this.neeToGenerate = true;
     return this;
   }
 
-  setSellerNote(sellerNote: string): BillingAgreementAttributesBuilder {
+  public setSellerNote(sellerNote: string): BillingAgreementAttributesBuilder {
     return this.withSellerNote(sellerNote);
   }
 
-  withPlatformId(platformId: string): BillingAgreementAttributesBuilder {
-    this._platformId = platformId;
-    this._neeToGenerate = true;
+  public withPlatformId(platformId: string): BillingAgreementAttributesBuilder {
+    this.platformId = platformId;
+    this.neeToGenerate = true;
     return this;
   }
 
-  setPlatformId(platformId: string): BillingAgreementAttributesBuilder {
+  public setPlatformId(platformId: string): BillingAgreementAttributesBuilder {
     return this.withPlatformId(platformId);
   }
 
-  withStoreName(storeName: string): BillingAgreementAttributesBuilder {
-    this._neeToGenerate = true;
-    this._addSellerBillingAgreementAttributes = true;
-    this._storeName = storeName;
+  public withStoreName(storeName: string): BillingAgreementAttributesBuilder {
+    this.neeToGenerate = true;
+    this.addSellerBillingAgreementAttributes = true;
+    this.storeName = storeName;
     return this;
   }
 
-  setStoreName(storeName: string): BillingAgreementAttributesBuilder {
+  public setStoreName(storeName: string): BillingAgreementAttributesBuilder {
     return this.withStoreName(storeName);
   }
 
-  withCustomInformation(customInformation: string): BillingAgreementAttributesBuilder {
-    this._neeToGenerate = true;
-    this._addSellerBillingAgreementAttributes = true;
-    this._customInformation = customInformation;
+  public withCustomInformation(customInformation: string): BillingAgreementAttributesBuilder {
+    this.neeToGenerate = true;
+    this.addSellerBillingAgreementAttributes = true;
+    this.customInformation = customInformation;
     return this;
   }
 
-  setCustomInformation(customInformation: string): BillingAgreementAttributesBuilder {
+  public setCustomInformation(customInformation: string): BillingAgreementAttributesBuilder {
     return this.withCustomInformation(customInformation);
   }
 
-  withSellerBillingAgreementId(sellerBillingAgreementId: string): BillingAgreementAttributesBuilder {
-    this._neeToGenerate = true;
-    this._addSellerBillingAgreementAttributes = true;
-    this._sellerBillingAgreementId = sellerBillingAgreementId;
+  public withSellerBillingAgreementId(sellerBillingAgreementId: string): BillingAgreementAttributesBuilder {
+    this.neeToGenerate = true;
+    this.addSellerBillingAgreementAttributes = true;
+    this.sellerBillingAgreementId = sellerBillingAgreementId;
     return this;
   }
 
-  setSellerBillingAgreementId(sellerBillingAgreementId: string): BillingAgreementAttributesBuilder {
+  public setSellerBillingAgreementId(sellerBillingAgreementId: string): BillingAgreementAttributesBuilder {
     return this.withSellerBillingAgreementId(sellerBillingAgreementId);
   }
 
-  build(): BillingAgreementAttributes {
+  public build(): BillingAgreementAttributes {
     let attributes = {};
-    if (this._neeToGenerate) {
+    if (this.neeToGenerate) {
       attributes = {
-        '@type': this._type,
-        '@version': this._version,
+        '@type': this.type,
+        '@version': this.version,
       };
-      if (this._sellerNote !== this.DUMMY) {
-        attributes = (<any>Object).assign(attributes, { sellerNote: this._sellerNote });
+      if (this.sellerNote !== this.DUMMY) {
+        attributes = Object.assign(attributes, { sellerNote: this.sellerNote });
       }
-      if (this._platformId !== this.DUMMY) {
-        attributes = (<any>Object).assign(attributes, { platformId: this._platformId });
+      if (this.platformId !== this.DUMMY) {
+        attributes = Object.assign(attributes, { platformId: this.platformId });
       }
-      if (this._addSellerBillingAgreementAttributes) {
+      if (this.addSellerBillingAgreementAttributes) {
         let innerAttributes = {
           '@type': 'SellerBillingAgreementAttributes',
-          '@version': this._version,
+          '@version': this.version,
         };
 
-        if (this._storeName !== this.DUMMY) {
-          innerAttributes = (<any>Object).assign(innerAttributes, { storeName: this._storeName });
+        if (this.storeName !== this.DUMMY) {
+          innerAttributes = Object.assign(innerAttributes, { storeName: this.storeName });
         }
-        if (this._customInformation !== this.DUMMY) {
-          innerAttributes = (<any>Object).assign(innerAttributes, { customInformation: this._customInformation });
+        if (this.customInformation !== this.DUMMY) {
+          innerAttributes = Object.assign(innerAttributes, { customInformation: this.customInformation });
         }
-        if (this._sellerBillingAgreementId !== this.DUMMY) {
-          innerAttributes = (<any>Object).assign(innerAttributes, {
-            sellerBillingAgreementId: this._sellerBillingAgreementId,
+        if (this.sellerBillingAgreementId !== this.DUMMY) {
+          innerAttributes = Object.assign(innerAttributes, {
+            sellerBillingAgreementId: this.sellerBillingAgreementId,
           });
         }
 
-        let sellerAttributes = {
+        const sellerAttributes = {
           sellerBillingAgreementAttributes: innerAttributes,
         };
 
-        attributes = (<any>Object).assign(attributes, sellerAttributes);
+        attributes = Object.assign(attributes, sellerAttributes);
       }
     }
     return JSON.parse(JSON.stringify(attributes));
