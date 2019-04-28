@@ -1,6 +1,6 @@
-import { AmazonPay } from '../AmazonPay';
-import {LedgerCurrency} from '../model/LedgerCurrency'
-import {SandboxSetting} from '../model/SandboxSetting'
+import { AmazonPay } from '../../AmazonPay';
+import {LedgerCurrency} from '../../model/LedgerCurrency'
+import {SandboxSetting} from '../../model/SandboxSetting'
 
 test('setupPayload full', () => {
     const payload = AmazonPay
@@ -10,7 +10,7 @@ test('setupPayload full', () => {
                         .withLedgerCurrency(LedgerCurrency.EUR)
                         .withCheckoutLanguage('en_GB')
                         .shippingNeeded(true)
-                        .withBillingAgreementAttributes(/* TODO fake */ 'attr')
+                        //.withBillingAgreementAttributes(/* TODO fake */ 'attr')
                         .onSandbox(new SandboxSetting('mysandbox@email.test'))
                         .build();
     expect(payload['@type']).toBe('SetupAmazonPayRequest');

@@ -1,8 +1,10 @@
 import { interfaces } from 'ask-sdk-model';
-import SetupAmazonPayRequest = interfaces.amazonpay.request.SetupAmazonPayRequest
+import SetupAmazonPayRequest = interfaces.amazonpay.request.SetupAmazonPayRequest;
+import BillingAgreementAttributes = interfaces.amazonpay.model.v1.BillingAgreementAttributes;
 
 import { LedgerCurrency } from '../model/LedgerCurrency';
 import { SandboxSetting } from '../model/SandboxSetting';
+import { BillingAgreementAttributesBuilder } from './BillingAgreementAttributesBuilder'
 
 export class SetupPayloadBuilder {
     private readonly DUMMY: string = 'dummy';
@@ -17,7 +19,7 @@ export class SetupPayloadBuilder {
     private _shippingNeeded: boolean = false;
     private _sandboxSetting: SandboxSetting = new SandboxSetting(this.DUMMY);
     private _onSandBox: boolean = false;
-    private _billingAgreementAttributes: string = this.DUMMY; // TODO: should be taken from ask-sdk-model
+    private _billingAgreementAttributes: BillingAgreementAttributes = new BillingAgreementAttributesBuilder(this._version).build(); 
 
 
     constructor(version: string){
@@ -67,7 +69,7 @@ export class SetupPayloadBuilder {
         return this;
     }
 
-    withBillingAgreementAttributes(attributes: string): SetupPayloadBuilder {
+    withBillingAgreementAttributes(attributes: BillingAgreementAttributes): SetupPayloadBuilder {
         this._billingAgreementAttributes = attributes;
         return this;
     }
@@ -123,7 +125,7 @@ export class SetupPayloadBuilder {
         }
         
         payload = (<any>Object).assign(payload, sandBoxPayload, languagePayload);
-        
+
         return JSON.parse(JSON.stringify(payload));
     }
 
