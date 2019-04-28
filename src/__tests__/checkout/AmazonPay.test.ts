@@ -8,10 +8,41 @@ test('setupPayload full', () => {
     .withCountryOfEstablishment('DE')
     .withLedgerCurrency(LedgerCurrency.EUR)
     .withCheckoutLanguage('en_GB')
+    .withCustomInformation('so custom')
+    .withPlatformId('ABCDE')
+    .withSellerBillingAgreementId('12345')
+    .withSellerNote('my note')
+    .withStoreName('my store')
     .shippingNeeded(true)
-    //.withBillingAgreementAttributes(/* TODO fake */ 'attr')
     .onSandbox(new SandboxSetting('mysandbox@email.test'))
     .build();
+
+  expect(payload).toEqual(
+    {  
+      "@type":"SetupAmazonPayRequest",
+      "@version":"2",
+      "countryOfEstablishment":"DE",
+      "ledgerCurrency":"EUR",
+      "needAmazonShippingAddress":true,
+      "sellerId":"ABCD1234ADS",
+      "sandboxCustomerEmailId":"mysandbox@email.test",
+      "sandboxMode":true,
+      "checkoutLanguage":"en_GB",
+      "billingAgreementAttributes":{  
+         "@type":"BillingAgreementAttributes",
+         "@version":"2",
+         "sellerNote":"my note",
+         "platformId":"ABCDE",
+         "sellerBillingAgreementAttributes":{  
+            "@type":"SellerBillingAgreementAttributes",
+            "@version":"2",
+            "storeName":"my store",
+            "customInformation":"so custom",
+            "sellerBillingAgreementId":"12345"
+         }
+      }
+   }   
+  );
   expect(payload['@type']).toBe('SetupAmazonPayRequest');
   expect(payload['@version']).toBe('2');
   expect(payload.checkoutLanguage).toBe('en_GB');
@@ -21,6 +52,20 @@ test('setupPayload full', () => {
   expect(payload.needAmazonShippingAddress).toBe(true);
   expect(payload.sandboxMode).toBe(true);
   expect(payload.sandboxCustomerEmailId).toBe('mysandbox@email.test');
+
+  expect(payload.billingAgreementAttributes).toBeDefined();
+  const billingAgreementAttributes = payload.billingAgreementAttributes;
+  if(billingAgreementAttributes){
+    expect(billingAgreementAttributes.platformId).toBe("ABCDE");
+    expect(billingAgreementAttributes.sellerNote).toBe("my note");
+    expect(billingAgreementAttributes.sellerBillingAgreementAttributes).toBeDefined();
+    const sellerAttributes = billingAgreementAttributes.sellerBillingAgreementAttributes;
+    if(sellerAttributes){
+      expect(sellerAttributes.customInformation).toBe("so custom");
+      expect(sellerAttributes.sellerBillingAgreementId).toBe("12345");
+      expect(sellerAttributes.storeName).toBe("my store");
+    }
+  }
 });
 
 test('setupPayload minimal', () => {

@@ -6,6 +6,6 @@ export class SandboxSetting {
   }
 
   get email(): string {
-    return this.email;
+    return this.eMail;
   }
 }

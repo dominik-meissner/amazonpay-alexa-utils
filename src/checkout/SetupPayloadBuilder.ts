@@ -19,9 +19,17 @@ export class SetupPayloadBuilder {
   private isShippingNeeded: boolean = false;
   private sandboxSetting: SandboxSetting = new SandboxSetting(this.DUMMY);
   private onSandBox: boolean = false;
-  private billingAgreementAttributes: BillingAgreementAttributes = new BillingAgreementAttributesBuilder(
-    this.version,
-  ).build();
+
+  // BAAttributes
+
+  private hasBAAttributes: boolean = false;
+
+  private sellerNote: string = this.DUMMY;
+  private platformId: string = this.DUMMY;
+  // sellerAttributes
+  private storeName: string = this.DUMMY;
+  private customInformation: string = this.DUMMY;
+  private sellerBillingAgreementId: string = this.DUMMY;
 
   constructor(version: string) {
     // version can be used to decide for the right fromat in future
@@ -70,9 +78,55 @@ export class SetupPayloadBuilder {
     return this;
   }
 
-  public withBillingAgreementAttributes(attributes: BillingAgreementAttributes): SetupPayloadBuilder {
-    this.billingAgreementAttributes = attributes;
+  public withSellerNote(sellerNote: string): SetupPayloadBuilder {
+    this.hasBAAttributes = true;
+    this.sellerNote = sellerNote;
     return this;
+  }
+
+  public setSellerNote(sellerNote: string): SetupPayloadBuilder {
+    return this.withSellerNote(sellerNote);
+  }
+
+  public withPlatformId(platformId: string): SetupPayloadBuilder {
+    this.hasBAAttributes = true;
+    this.platformId = platformId;
+    return this;
+  }
+
+  public setPlatformId(platformId: string): SetupPayloadBuilder {
+    return this.withPlatformId(platformId);
+  }
+
+  // sellerAttributes
+  public withStoreName(storeName: string): SetupPayloadBuilder {
+    this.hasBAAttributes = true;
+    this.storeName = storeName;
+    return this;
+  }
+
+  public setStoreName(storeName: string): SetupPayloadBuilder {
+    return this.withStoreName(storeName);
+  }
+
+  public withCustomInformation(customInformation: string): SetupPayloadBuilder {
+    this.hasBAAttributes = true;
+    this.customInformation = customInformation;
+    return this;
+  }
+
+  public setCustomInformation(customInformation: string): SetupPayloadBuilder {
+    return this.withCustomInformation(customInformation);
+  }
+
+  public withSellerBillingAgreementId(sellerBillingAgreementId: string): SetupPayloadBuilder {
+    this.hasBAAttributes = true;
+    this.sellerBillingAgreementId = sellerBillingAgreementId;
+    return this;
+  }
+
+  public setSellerBillingAgreementId(sellerBillingAgreementId: string): SetupPayloadBuilder {
+    return this.withSellerBillingAgreementId(sellerBillingAgreementId);
   }
 
   public onSandbox(sandboxSetting: SandboxSetting): SetupPayloadBuilder {
@@ -95,19 +149,6 @@ export class SetupPayloadBuilder {
     let payload = {
       '@type': this.type,
       '@version': this.version,
-      billingAgreementAttributes: {
-        '@type': 'BillingAgreementAttributes',
-        '@version': '2',
-        platformId: '',
-        sellerBillingAgreementAttributes: {
-          '@type': 'SellerBillingAgreementAttributes',
-          '@version': '2',
-          customInformation: '',
-          sellerBillingAgreementId: '',
-          storeName: '',
-        },
-        sellerNote: '',
-      },
       countryOfEstablishment: this.countryOfEstablishment,
       ledgerCurrency: this.ledgerCurrency,
       needAmazonShippingAddress: this.isShippingNeeded,
@@ -116,6 +157,7 @@ export class SetupPayloadBuilder {
 
     let sandBoxPayload = {};
     let languagePayload = {};
+    let baPayload = {};
 
     if (this.onSandBox) {
       sandBoxPayload = {
@@ -130,7 +172,21 @@ export class SetupPayloadBuilder {
       };
     }
 
-    payload = Object.assign(payload, sandBoxPayload, languagePayload);
+    if (this.hasBAAttributes) {
+      const baAttributes = new BillingAgreementAttributesBuilder(this.version)
+        .withCustomInformation(this.customInformation)
+        .withPlatformId(this.platformId)
+        .withSellerBillingAgreementId(this.sellerBillingAgreementId)
+        .withSellerNote(this.sellerNote)
+        .withStoreName(this.storeName)
+        .build();
+
+      baPayload = {
+        billingAgreementAttributes: baAttributes,
+      };
+    }
+
+    payload = Object.assign(payload, sandBoxPayload, languagePayload, baPayload);
 
     return JSON.parse(JSON.stringify(payload));
   }
