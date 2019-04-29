@@ -50,48 +50,63 @@ console.log(JSON.stringify(payload))
     }
 } 
 ```
-## COMING SOON
+
 ### Charge API
 
 ```javascript
 // TODO const AMAZONPay = require('@ask-utils/amazon-pay')
 import { AmazonPay } from '../../AmazonPay';
 
-const payload = AmazonPay.setupPayload(/*version*/ '2')
-    .withReferenceId('ABCD1234ADS')
-    .withCurrency('EUR')
-    .withAmount(50)
+const payload = AmazonPay.chargePayload(/* version */ '2')
+    .withSellerId('ABCD1234ADS')
+    .withBillingAgreementId('B02-12345-12345')
+    .withPaymentAction(PaymentAction.AUTHORIZEANDCAPTURE)
+    .withAuthorizationReferenceId('ref')
+    .withAmount('50')
+    .withCurrency(Currency.EUR)
+    .withTransactionTimeout('0')
+    .withSellerAuthorizationNote('my auth note')
+    .withSoftDescriptor('my store - Alexa skill')
+    .withSellerOrderId('12345')
     .withStoreName('my store')
-    ...
+    .withCustomInformation('so custom')
+    .withSellerNote('my note')
     .build();
 
 console.log(JSON.stringify(payload))
 
 {
-  "@type": "ChargeAmazonPayRequest",
-  "@version": "2",
-  "sellerId": "my-seller-id",
-  "billingAgreementId": "agreement-id",
-  "paymentAction": "AuthorizeAndCapture",
-  "authorizeAttributes": {
-    "@type": "AuthorizeAttributes",
-    "@version": "2",
-    "authorizationReferenceId": "MyReference ID",
-    "authorizationAmount": {
-      "@type": "Price",
-      "@version": "2",
-      "amount": "500",
-      "currencyCode": "USD"
-    }
-  },
-  "sellerOrderAttributes": {
-    "@type": "SellerOrderAttributes",
-    "@version": "2",
-    "sellerOrderId": "my seller id",
-    "storeName": "Example store"
+    '@type': 'ChargeAmazonPayRequest',
+    '@version': '2',
+    'billingAgreementId': 'B02-12345-12345',
+    'paymentAction': 'AUTHORIZEANDCAPTURE',
+    'sellerId': 'ABCD1234ADS',
+    'authorizeAttributes': {
+      '@type': 'AuthorizeAttributes',
+      '@version': '2',
+      'authorizationReferenceId': 'ref',
+      'authorizationAmount': {
+        '@type': 'Price',
+        '@version': '2',
+        'amount': '50',
+        'currencyCode': 'EUR',
+      },
+      'sellerAuthorizationNote': 'my auth note',
+      'softDescriptor': 'my store - Alexa skill',
+      'transactionTimeout': '0',
+    },
+    'sellerOrderAttributes': {
+      '@type': 'SellerOrderAttributes',
+      '@version': '2',
+      'customInformation': 'so custom',
+      'sellerNote': 'my note',
+      'sellerOrderId': '12345',
+      'storeName': 'my store',
+    },
   }
-}
 ```
+## COMING SOON
+
 ### Directives
 ```javascript
 
@@ -107,8 +122,8 @@ AmazonPay.setupDirective()
 AmazonPay.chargeOnline()
     .withSetupPayload(setupPayload)
     .withChargePayload(chargePaload)
-    .wkithCorrelationToken('token')
-    .onResspomse(callback)
+    .withCorrelationToken('token')
+    .onResponse(callback)
     .registerOn(skillBuilder);
 ```
 

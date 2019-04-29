@@ -1,8 +1,7 @@
 import { interfaces } from 'ask-sdk-model';
 import SetupAmazonPayRequest = interfaces.amazonpay.request.SetupAmazonPayRequest;
-import BillingAgreementAttributes = interfaces.amazonpay.model.v1.BillingAgreementAttributes;
 
-import { LedgerCurrency } from '../model/LedgerCurrency';
+import { Currency } from '../model/Currency';
 import { SandboxSetting } from '../model/SandboxSetting';
 import { BillingAgreementAttributesBuilder } from './BillingAgreementAttributesBuilder';
 
@@ -14,7 +13,7 @@ export class SetupPayloadBuilder {
 
   private sellerId: string = this.DUMMY;
   private countryOfEstablishment: string = this.DUMMY;
-  private ledgerCurrency: LedgerCurrency = LedgerCurrency.NOT_DEFINED;
+  private ledgerCurrency: Currency = Currency.NOT_DEFINED;
   private checkoutLanguage: string = this.DUMMY;
   private isShippingNeeded: boolean = false;
   private sandboxSetting: SandboxSetting = new SandboxSetting(this.DUMMY);
@@ -55,12 +54,12 @@ export class SetupPayloadBuilder {
     return this.withCountryOfEstablishment(countryOfEstablishment);
   }
 
-  public withLedgerCurrency(currency: LedgerCurrency): SetupPayloadBuilder {
+  public withLedgerCurrency(currency: Currency): SetupPayloadBuilder {
     this.ledgerCurrency = currency;
     return this;
   }
 
-  public setLedgerCurrency(currency: LedgerCurrency): SetupPayloadBuilder {
+  public setLedgerCurrency(currency: Currency): SetupPayloadBuilder {
     return this.withLedgerCurrency(currency);
   }
 
@@ -139,7 +138,7 @@ export class SetupPayloadBuilder {
     if (this.sellerId === this.DUMMY) {
       throw new Error('sellerId is required');
     }
-    if (this.ledgerCurrency === LedgerCurrency.NOT_DEFINED) {
+    if (this.ledgerCurrency === Currency.NOT_DEFINED) {
       throw new Error('ledgerCurrency is required');
     }
     if (this.countryOfEstablishment === this.DUMMY) {

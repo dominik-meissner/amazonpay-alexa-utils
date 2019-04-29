@@ -1,4 +1,4 @@
-export enum LedgerCurrency {
+export enum Currency {
   EUR = 'EUR',
   USD = 'USD',
   GBP = 'GBP',
