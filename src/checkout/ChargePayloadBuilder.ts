@@ -1,5 +1,5 @@
 import { interfaces } from 'ask-sdk-model';
-import SetupAmazonPayRequest = interfaces.amazonpay.request.SetupAmazonPayRequest;
+import ChargeAmazonPayRequest = interfaces.amazonpay.request.ChargeAmazonPayRequest;
 
 import { Currency } from '../model/Currency';
 import { PaymentAction } from '../model/PaymentAction';
@@ -166,7 +166,7 @@ export class ChargePayloadBuilder {
     return this.withCustomInformation(customInformation);
   }
 
-  public build(): SetupAmazonPayRequest {
+  public build(): ChargeAmazonPayRequest {
     if (this.sellerId === this.DUMMY) {
       throw new Error('sellerId is required');
     }
