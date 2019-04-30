@@ -105,16 +105,83 @@ console.log(JSON.stringify(payload))
     },
   }
 ```
-## COMING SOON
 
-### Directives
+### Setup Directives
 ```javascript
 
-AmazonPay.setupDirective()
-    .forPayload(payload)
-    .withCorrelationToken('token')
+const payloadBuilder = AmazonPay.setupPayload('2')
+    .withSellerId('ABCD1234ADS')
+    .withCountryOfEstablishment('DE')
+    .withLedgerCurrency(Currency.EUR);
+
+const directive = AmazonPay
+    .setupDirective(payloadBuilder, 'token')
     .build();
+
+console.log(JSON.stringify(directive));
+
+    {
+      "name": "Setup",
+      "payload": {
+        "@type": "SetupAmazonPayRequest",
+        "@version": "2",
+        "countryOfEstablishment": "DE",
+        "ledgerCurrency": "EUR",
+        "needAmazonShippingAddress": false,
+        "sellerId": "ABCD1234ADS"
+      },
+      "token": "token",
+      "type": "Connections.SendRequest"
+    }
+
+
 ```
+
+### Charge Directives
+```javascript
+
+const payloadBuilder = AmazonPay.chargePayload('2')
+    .withSellerId('ABCD1234ADS')
+    .withBillingAgreementId('B02-12345-12345')
+    .withAmount('50')
+    .withCurrency(Currency.EUR)
+    .withAuthorizationReferenceId('ref')
+    .withPaymentAction(PaymentAction.AUTHORIZE);
+
+const directive = AmazonPay
+    .chargeDirective(payloadBuilder, 'token')
+    .build();
+
+    console.log(JSON.stringify(directive));
+
+    {
+      "name": "Charge",
+      "payload": {
+        "@type": "ChargeAmazonPayRequest",
+        "@version": "2",
+        "billingAgreementId": "B02-12345-12345",
+        "paymentAction": "AUTHORIZE",
+        "sellerId": "ABCD1234ADS",
+        "authorizeAttributes": {
+          "@type": "AuthorizeAttributes",
+          "@version": "2",
+          "authorizationAmount": {
+            "@type": "Price",
+            "@version": "2",
+            "amount": "50",
+            "currencyCode": "EUR"
+          },
+          "authorizationReferenceId": "ref"
+        }
+      },
+      "token": "token",
+      "type": "Connections.SendRequest"
+    }
+
+```
+
+
+## COMING SOON
 
 ### Charge online
 ```javascript

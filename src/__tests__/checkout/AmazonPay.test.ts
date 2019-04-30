@@ -198,3 +198,42 @@ test('charge payload minimal + sellerOrderAtrribute', () => {
     },
   });
 });
+
+test('setup directive', () => {
+  const payloadBuilder = AmazonPay.setupPayload('2')
+    .withSellerId('ABCD1234ADS')
+    .withCountryOfEstablishment('DE')
+    .withLedgerCurrency(Currency.EUR);
+
+  const directive = AmazonPay
+  .setupDirective(payloadBuilder, 'token')
+  .build();
+
+  
+  console.log(JSON.stringify(directive));
+
+  expect(directive.type).toBe('Connections.SendRequest');
+  expect(directive.name).toBe('Setup');
+  expect(directive.payload).toEqual(payloadBuilder.build());
+  expect(directive.token).toBe('token');
+});
+
+test('charge directive', () => {
+  const payloadBuilder = AmazonPay.chargePayload('2')
+    .withSellerId('ABCD1234ADS')
+    .withBillingAgreementId('B02-12345-12345')
+    .withAmount('50')
+    .withCurrency(Currency.EUR)
+    .withAuthorizationReferenceId('ref')
+    .withPaymentAction(PaymentAction.AUTHORIZE);
+
+  const directive = AmazonPay.chargeDirective(payloadBuilder, 'token').build();
+
+  
+  console.log(JSON.stringify(directive));
+
+  expect(directive.type).toBe('Connections.SendRequest');
+  expect(directive.name).toBe('Charge');
+  expect(directive.payload).toEqual(payloadBuilder.build());
+  expect(directive.token).toBe('token');
+});
