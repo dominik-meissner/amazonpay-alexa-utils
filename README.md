@@ -180,9 +180,22 @@ const directive = AmazonPay
 
 ```
 
+### Get Permission Status
+```javascript
 
+const permissionIsGranted = AmazonPay.isAmazonPayPermissionGranted(handlerInput.requestEnvelope);
+
+```
 ## COMING SOON
 
+### Ask For Permissions
+````javascript
+
+AmazonPay
+  .askForPermissionCard('Spoken message to ask for permission enablement')
+  .withAdditionalPermissions(['alexa::profile:email:read', 'alexa::profile:name:read'])
+  .send();
+```
 ### Charge online
 ```javascript
 

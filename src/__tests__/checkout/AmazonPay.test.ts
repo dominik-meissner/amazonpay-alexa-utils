@@ -205,11 +205,8 @@ test('setup directive', () => {
     .withCountryOfEstablishment('DE')
     .withLedgerCurrency(Currency.EUR);
 
-  const directive = AmazonPay
-  .setupDirective(payloadBuilder, 'token')
-  .build();
+  const directive = AmazonPay.setupDirective(payloadBuilder, 'token').build();
 
-  
   console.log(JSON.stringify(directive));
 
   expect(directive.type).toBe('Connections.SendRequest');
@@ -229,7 +226,6 @@ test('charge directive', () => {
 
   const directive = AmazonPay.chargeDirective(payloadBuilder, 'token').build();
 
-  
   console.log(JSON.stringify(directive));
 
   expect(directive.type).toBe('Connections.SendRequest');
