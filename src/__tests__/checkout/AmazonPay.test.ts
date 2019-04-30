@@ -73,6 +73,7 @@ test('setupPayload minimal', () => {
     .withCountryOfEstablishment('DE')
     .withLedgerCurrency(Currency.EUR)
     .build();
+
   expect(payload['@type']).toBe('SetupAmazonPayRequest');
   expect(payload['@version']).toBe('2');
   expect(payload.checkoutLanguage).toBeUndefined();
@@ -101,7 +102,6 @@ test('charge payload full', () => {
     .withSellerNote('my note')
     .build();
 
-  console.log(payload);
   expect(payload).toEqual({
     '@type': 'ChargeAmazonPayRequest',
     '@version': '2',
@@ -143,7 +143,6 @@ test('charge payload minimal', () => {
     .withCurrency(Currency.EUR)
     .build();
 
-  console.log(payload);
   expect(payload).toEqual({
     '@type': 'ChargeAmazonPayRequest',
     '@version': '2',
@@ -175,7 +174,6 @@ test('charge payload minimal + sellerOrderAtrribute', () => {
     .withStoreName('my store')
     .build();
 
-  console.log(payload);
   expect(payload).toEqual({
     '@type': 'ChargeAmazonPayRequest',
     '@version': '2',

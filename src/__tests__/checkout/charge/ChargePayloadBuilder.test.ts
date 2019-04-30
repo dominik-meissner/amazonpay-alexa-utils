@@ -1,6 +1,6 @@
-import { ChargePayloadBuilder } from '../../checkout/ChargePayloadBuilder';
-import { Currency } from '../../model/Currency';
-import { PaymentAction } from '../../model/PaymentAction';
+import { ChargePayloadBuilder } from '../../../checkout/charge/ChargePayloadBuilder';
+import { Currency } from '../../../model/Currency';
+import { PaymentAction } from '../../../model/PaymentAction';
 
 test('charge payload full', () => {
   const payload = new ChargePayloadBuilder(/* version */ '2')

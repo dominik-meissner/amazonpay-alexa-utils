@@ -1,5 +1,5 @@
-import { ChargePayloadBuilder } from './checkout/ChargePayloadBuilder';
-import { SetupPayloadBuilder } from './checkout/SetupPayloadBuilder';
+import { ChargePayloadBuilder } from './checkout/charge/ChargePayloadBuilder';
+import { SetupPayloadBuilder } from './checkout/setup/SetupPayloadBuilder';
 
 export const AmazonPay = {
   chargePayload: (version: string): ChargePayloadBuilder => {

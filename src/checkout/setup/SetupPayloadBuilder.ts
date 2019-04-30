@@ -1,8 +1,8 @@
 import { interfaces } from 'ask-sdk-model';
 import SetupAmazonPayRequest = interfaces.amazonpay.request.SetupAmazonPayRequest;
 
-import { Currency } from '../model/Currency';
-import { SandboxSetting } from '../model/SandboxSetting';
+import { Currency } from '../../model/Currency';
+import { SandboxSetting } from '../../model/SandboxSetting';
 import { BillingAgreementAttributesBuilder } from './BillingAgreementAttributesBuilder';
 
 export class SetupPayloadBuilder {

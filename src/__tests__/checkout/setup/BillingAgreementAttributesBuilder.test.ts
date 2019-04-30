@@ -1,4 +1,4 @@
-import { BillingAgreementAttributesBuilder } from '../../checkout/BillingAgreementAttributesBuilder';
+import { BillingAgreementAttributesBuilder } from '../../../checkout/setup/BillingAgreementAttributesBuilder';
 
 test('no input, empty object out', () => {
   let result = new BillingAgreementAttributesBuilder('2').build();

@@ -1,8 +1,10 @@
 import { interfaces } from 'ask-sdk-model';
 import ChargeAmazonPayRequest = interfaces.amazonpay.request.ChargeAmazonPayRequest;
 
-import { Currency } from '../model/Currency';
-import { PaymentAction } from '../model/PaymentAction';
+import { Currency } from '../../model/Currency';
+import { PaymentAction } from '../../model/PaymentAction';
+import { AuthorizeAttributesBuilder } from './AuthorizeAttributesBuilder';
+import { SellerOrderAttributesBuilder } from './SellerOrderAttributesBuilder';
 
 export class ChargePayloadBuilder {
   private readonly DUMMY: string = 'dummy';
@@ -22,7 +24,6 @@ export class ChargePayloadBuilder {
 
   // control flags
   private needsSellerOrderAttributes = false;
-  private needsoptionalAuthAttributes = false;
 
   // optional arguments on AuthorizeAttributes
   private sellerAuthorizationNote: string = this.DUMMY;
@@ -96,7 +97,6 @@ export class ChargePayloadBuilder {
   }
 
   public withSellerAuthorizationNote(note: string): ChargePayloadBuilder {
-    this.needsoptionalAuthAttributes = true;
     this.sellerAuthorizationNote = note;
     return this;
   }
@@ -106,7 +106,6 @@ export class ChargePayloadBuilder {
   }
 
   public withSoftDescriptor(softDescriptor: string): ChargePayloadBuilder {
-    this.needsoptionalAuthAttributes = true;
     this.softDescriptor = softDescriptor;
     return this;
   }
@@ -116,7 +115,6 @@ export class ChargePayloadBuilder {
   }
 
   public withTransactionTimeout(transactionTimeout: string): ChargePayloadBuilder {
-    this.needsoptionalAuthAttributes = true;
     this.transactionTimeout = transactionTimeout;
     return this;
   }
@@ -193,57 +191,33 @@ export class ChargePayloadBuilder {
 
     let authAttributesContainer = {};
 
-    let authAttributes = {
-      '@type': 'AuthorizeAttributes',
-      '@version': this.version,
-      authorizationAmount: {
-        '@type': 'Price',
-        '@version': this.version,
-        amount: this.authorizationAmount,
-        currencyCode: this.currency,
-      },
-      authorizationReferenceId: this.authorizationReferenceId,
-    };
-    let sellerOrderAttributes = {};
+    const authAttributes = new AuthorizeAttributesBuilder(this.version)
+      .withAuthorizationReferenceId(this.authorizationReferenceId)
+      .withAmount(this.authorizationAmount)
+      .withCurrency(this.currency)
+      .withSellerAuthorizationNote(this.sellerAuthorizationNote)
+      .withSoftDescriptor(this.softDescriptor)
+      .withTransactionTimeout(this.transactionTimeout)
+      .build();
 
-    if (this.needsoptionalAuthAttributes) {
-      if (this.sellerAuthorizationNote !== this.DUMMY) {
-        authAttributes = Object.assign(authAttributes, { sellerAuthorizationNote: this.sellerAuthorizationNote });
-      }
-      if (this.softDescriptor !== this.DUMMY) {
-        authAttributes = Object.assign(authAttributes, { softDescriptor: this.softDescriptor });
-      }
-      if (this.transactionTimeout !== this.DUMMY) {
-        authAttributes = Object.assign(authAttributes, { transactionTimeout: this.transactionTimeout });
-      }
-    }
     authAttributesContainer = {
       authorizeAttributes: authAttributes,
     };
 
-    if (this.needsSellerOrderAttributes) {
-      let orderAtrributes = {
-        '@type': 'SellerOrderAttributes',
-        '@version': this.version,
-      };
-      if (this.customInformation !== this.DUMMY) {
-        orderAtrributes = Object.assign(orderAtrributes, { customInformation: this.customInformation });
-      }
-      if (this.sellerNote !== this.DUMMY) {
-        orderAtrributes = Object.assign(orderAtrributes, { sellerNote: this.sellerNote });
-      }
-      if (this.sellerOrderId !== this.DUMMY) {
-        orderAtrributes = Object.assign(orderAtrributes, { sellerOrderId: this.sellerOrderId });
-      }
-      if (this.storeName !== this.DUMMY) {
-        orderAtrributes = Object.assign(orderAtrributes, { storeName: this.storeName });
-      }
+    const orderAttributes = new SellerOrderAttributesBuilder(this.version)
+      .withCustomInformation(this.customInformation)
+      .withSellerNote(this.sellerNote)
+      .withSellerOrderId(this.sellerOrderId)
+      .withStoreName(this.storeName)
+      .build();
 
-      sellerOrderAttributes = {
-        sellerOrderAttributes: orderAtrributes,
+    let sellerOrderAttributesContainer = {};
+    if (this.needsSellerOrderAttributes) {
+      sellerOrderAttributesContainer = {
+        sellerOrderAttributes: orderAttributes,
       };
     }
-    payload = Object.assign(payload, authAttributesContainer, sellerOrderAttributes);
+    payload = Object.assign(payload, authAttributesContainer, sellerOrderAttributesContainer);
 
     return JSON.parse(JSON.stringify(payload));
   }
