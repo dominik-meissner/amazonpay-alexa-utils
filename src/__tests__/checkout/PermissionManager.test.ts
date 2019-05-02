@@ -1,4 +1,4 @@
-import { PermissionChecker } from '../../checkout/PermissionChecker';
+import { PermissionManager } from '../../checkout/PermissionManager';
 
 const granted = JSON.parse(
   JSON.stringify({
@@ -89,6 +89,6 @@ const denied = JSON.parse(
 );
 
 test('permission granted', () => {
-  expect(PermissionChecker.get().isPurchasingAndPayEnabled(granted)).toBe(true);
-  expect(PermissionChecker.get().isPurchasingAndPayEnabled(denied)).toBe(false);
+  expect(PermissionManager.get().isPurchasingAndPayEnabled(granted)).toBe(true);
+  expect(PermissionManager.get().isPurchasingAndPayEnabled(denied)).toBe(false);
 });

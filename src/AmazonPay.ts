@@ -2,7 +2,7 @@ import { RequestEnvelope } from 'ask-sdk-model';
 
 import { ChargeDirectiveBuilder } from './checkout/charge/ChargeDirectiveBuilder';
 import { ChargePayloadBuilder } from './checkout/charge/ChargePayloadBuilder';
-import { PermissionChecker } from './checkout/PermissionChecker';
+import { PermissionManager } from './checkout/PermissionManager';
 import { SetupDirectiveBuilder } from './checkout/setup/SetupDirectiveBuilder';
 import { SetupPayloadBuilder } from './checkout/setup/SetupPayloadBuilder';
 
@@ -15,7 +15,7 @@ export function chargePayload(version: string): ChargePayloadBuilder {
 }
 
 export function isAmazonPayPermissionGranted(requestEnvelope: RequestEnvelope): boolean {
-  return PermissionChecker.get().isPurchasingAndPayEnabled(requestEnvelope);
+  return PermissionManager.get().isPurchasingAndPayEnabled(requestEnvelope);
 }
 
 export function setupDirective(payloadBuilder: SetupPayloadBuilder, token: string): SetupDirectiveBuilder {

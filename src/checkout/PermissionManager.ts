@@ -1,12 +1,12 @@
 import { RequestEnvelope } from 'ask-sdk-model';
-export class PermissionChecker {
-  public static get(): PermissionChecker {
-    if (!PermissionChecker.instance) {
-      PermissionChecker.instance = new PermissionChecker();
+export class PermissionManager {
+  public static get(): PermissionManager {
+    if (!PermissionManager.instance) {
+      PermissionManager.instance = new PermissionManager();
     }
-    return PermissionChecker.instance;
+    return PermissionManager.instance;
   }
-  private static instance: PermissionChecker;
+  private static instance: PermissionManager;
 
   private constructor() {}
 
