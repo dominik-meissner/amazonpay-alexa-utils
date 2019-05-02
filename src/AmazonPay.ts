@@ -6,20 +6,22 @@ import { PermissionChecker } from './checkout/PermissionChecker';
 import { SetupDirectiveBuilder } from './checkout/setup/SetupDirectiveBuilder';
 import { SetupPayloadBuilder } from './checkout/setup/SetupPayloadBuilder';
 
-export const AmazonPay = {
-  chargeDirective: (payloadBuilder: ChargePayloadBuilder, token: string): ChargeDirectiveBuilder => {
-    return new ChargeDirectiveBuilder(payloadBuilder, token);
-  },
-  chargePayload: (version: string): ChargePayloadBuilder => {
-    return new ChargePayloadBuilder(version);
-  },
-  isAmazonPayPermissionGranted(requestEnvelope: RequestEnvelope): boolean {
-    return PermissionChecker.get().isPurchasingAndPayEnabled(requestEnvelope);
-  },
-  setupDirective: (payloadBuilder: SetupPayloadBuilder, token: string): SetupDirectiveBuilder => {
-    return new SetupDirectiveBuilder(payloadBuilder, token);
-  },
-  setupPayload: (version: string): SetupPayloadBuilder => {
-    return new SetupPayloadBuilder(version);
-  },
-};
+export function chargeDirective(payloadBuilder: ChargePayloadBuilder, token: string): ChargeDirectiveBuilder {
+  return new ChargeDirectiveBuilder(payloadBuilder, token);
+}
+
+export function chargePayload(version: string): ChargePayloadBuilder {
+  return new ChargePayloadBuilder(version);
+}
+
+export function isAmazonPayPermissionGranted(requestEnvelope: RequestEnvelope): boolean {
+  return PermissionChecker.get().isPurchasingAndPayEnabled(requestEnvelope);
+}
+
+export function setupDirective(payloadBuilder: SetupPayloadBuilder, token: string): SetupDirectiveBuilder {
+  return new SetupDirectiveBuilder(payloadBuilder, token);
+}
+
+export function setupPayload(version: string): SetupPayloadBuilder {
+  return new SetupPayloadBuilder(version);
+}

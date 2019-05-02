@@ -1,8 +1,9 @@
 {
   "name": "amazonpay-alexa-utils",
-  "version": "1.0.0",
-  "description": "Amazon Pay for Alexa Skills utilities",
-  "main": "AmazonPay.js",
+  "version": "1.0.2",
+  "description": "Convenience utilities to simplify Amazon Pay for Alexa Skills functionality",
+  "main": "lib/AmazonPay.js",
+  "types": "lib/AmazonPay.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest --config jestconfig.json",
@@ -12,7 +13,7 @@
   "files": [
     "lib/**/*"
   ],
-  "author": "daneu",
+  "author": "Daniel Neu",
   "license": "MIT",
   "private": false,
   "devDependencies": {

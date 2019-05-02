@@ -7,7 +7,7 @@
       "strict": true
     },
     "include": [
-        "src", "index.ts"
+        "src", "AmazonPay.ts"
     ],
     "exclude": [
         "node_modules",

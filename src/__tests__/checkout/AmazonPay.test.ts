@@ -1,4 +1,4 @@
-import { AmazonPay } from '../../AmazonPay';
+import * as AmazonPay from '../../AmazonPay';
 import { Currency } from '../../model/Currency';
 import { SandboxSetting } from '../../model/SandboxSetting';
 import { PaymentAction } from '../../model/PaymentAction';

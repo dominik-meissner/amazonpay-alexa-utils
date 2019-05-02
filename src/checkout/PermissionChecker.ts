@@ -1,15 +1,14 @@
 import { RequestEnvelope } from 'ask-sdk-model';
 export class PermissionChecker {
-  private static instance: PermissionChecker;
-
-  private constructor() {}
-
   public static get(): PermissionChecker {
     if (!PermissionChecker.instance) {
       PermissionChecker.instance = new PermissionChecker();
     }
     return PermissionChecker.instance;
   }
+  private static instance: PermissionChecker;
+
+  private constructor() {}
 
   public isPurchasingAndPayEnabled(requestEnvelope: RequestEnvelope): boolean {
     const permissions = requestEnvelope.context.System.user.permissions;
