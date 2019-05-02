@@ -7,8 +7,7 @@
 ### Setup API
 
 ```javascript
-// TODO const AMAZONPay = require('@ask-utils/amazon-pay')
-import { AmazonPay } from '../../AmazonPay';
+const AmazonPay = require('amazonpay-alexa-utils');
 
 const payload = AmazonPay.setupPayload(/*version*/ '2')
     .withSellerId('ABCD1234ADS')
@@ -56,8 +55,7 @@ console.log(JSON.stringify(payload))
 ### Charge API
 
 ```javascript
-// TODO const AMAZONPay = require('@ask-utils/amazon-pay')
-import { AmazonPay } from '../../AmazonPay';
+const AmazonPay = require('amazonpay-alexa-utils');
 
 const payload = AmazonPay.chargePayload(/* version */ '2')
     .withSellerId('ABCD1234ADS')
@@ -110,8 +108,9 @@ console.log(JSON.stringify(payload))
 
 ### Setup Directives
 ```javascript
+const AmazonPay = require('amazonpay-alexa-utils');
 
-const payloadBuilder = AmazonPay.setupPayload('2')
+const payloadBuilder = AmazonPay.setupPayload(/* version */ '2')
     .withSellerId('ABCD1234ADS')
     .withCountryOfEstablishment('DE')
     .withLedgerCurrency(Currency.EUR);
@@ -141,8 +140,9 @@ console.log(JSON.stringify(directive));
 
 ### Charge Directives
 ```javascript
+const AmazonPay = require('amazonpay-alexa-utils');
 
-const payloadBuilder = AmazonPay.chargePayload('2')
+const payloadBuilder = AmazonPay.chargePayload(/* version */ '2')
     .withSellerId('ABCD1234ADS')
     .withBillingAgreementId('B02-12345-12345')
     .withAmount('50')
@@ -184,20 +184,23 @@ const directive = AmazonPay
 
 ### Get Permission Status
 ```javascript
+const AmazonPay = require('amazonpay-alexa-utils');
 
 const permissionIsGranted = AmazonPay.isAmazonPayPermissionGranted(handlerInput.requestEnvelope);
 
 ```
-## COMING SOON
+
 
 ### Ask For Permissions
-````javascript
+```javascript
+const AmazonPay = require('amazonpay-alexa-utils');
 
-AmazonPay
-  .askForPermissionCard('Spoken message to ask for permission enablement')
+const response = AmazonPay.askForPermissionCard('Spoken message to ask for permission enablement')
   .withAdditionalPermissions(['alexa::profile:email:read', 'alexa::profile:name:read'])
   .send();
 ```
+## COMING SOON
+
 ### Charge online
 ```javascript
 

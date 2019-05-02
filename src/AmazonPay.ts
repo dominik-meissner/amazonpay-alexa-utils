@@ -1,21 +1,14 @@
-import { Response, RequestEnvelope } from 'ask-sdk-model';
-import { ResponseBuilder } from 'ask-sdk';
+import { RequestEnvelope } from 'ask-sdk-model';
 
 import { ChargeDirectiveBuilder } from './checkout/charge/ChargeDirectiveBuilder';
 import { ChargePayloadBuilder } from './checkout/charge/ChargePayloadBuilder';
-import { PermissionManager } from './checkout/PermissionManager';
 import { SetupDirectiveBuilder } from './checkout/setup/SetupDirectiveBuilder';
 import { SetupPayloadBuilder } from './checkout/setup/SetupPayloadBuilder';
+import { PermissionCardBuilder } from './permissions/PermissionCardBuilder';
+import { PermissionManager } from './permissions/PermissionManager';
 
-export function askForPermissionCard(
-  responseBuilder: ResponseBuilder,
-  speechText: string,
-  additionalPermissions?: Array<string>,
-): Response {
-  return PermissionManager.get()
-    .withSpeechText(speechText)
-    .withAdditionalPermissions(additionalPermissions)
-    .send(responseBuilder);
+export function askForPermissionCard(speechText: string): PermissionCardBuilder {
+  return PermissionManager.get().askForPermissionCard(speechText);
 }
 
 export function chargeDirective(payloadBuilder: ChargePayloadBuilder, token: string): ChargeDirectiveBuilder {
