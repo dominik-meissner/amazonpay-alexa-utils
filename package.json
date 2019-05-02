@@ -10,6 +10,13 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielneu/amazonpay-alexa-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/danielneu/amazonpay-alexa-utils/issues"
+  },
   "files": [
     "lib/**/*"
   ],

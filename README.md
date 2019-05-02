@@ -1,5 +1,7 @@
 # amazonpay-alexa-utils
 
+[![Build Status](https://travis-ci.org/danielneu/amazonpay-alexa-utils.svg?branch=master)](https://travis-ci.org/danielneu/amazonpay-alexa-utils)
+
 ## Example
 
 ### Setup API
