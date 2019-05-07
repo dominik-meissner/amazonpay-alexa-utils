@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/danielneu/amazonpay-alexa-utils.svg?branch=master)](https://travis-ci.org/danielneu/amazonpay-alexa-utils)
 
+To install it into your project, simply execute `npm i amazonpay-alexa-utils --save`
+
 ## Setup API
 
 Build payloads for setup operations the easy way -  no need to know the pyload structure. The builder will take care to give you the right format.
