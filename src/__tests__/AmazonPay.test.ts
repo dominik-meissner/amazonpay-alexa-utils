@@ -1,7 +1,7 @@
-import * as AmazonPay from '../../AmazonPay';
-import { Currency } from '../../model/Currency';
-import { SandboxSetting } from '../../model/SandboxSetting';
-import { PaymentAction } from '../../model/PaymentAction';
+import * as AmazonPay from '../AmazonPay';
+import { Currency } from '../model/Currency';
+import { SandboxSetting } from '../model/SandboxSetting';
+import { PaymentAction } from '../model/PaymentAction';
 
 test('setupPayload full', () => {
   const payload = AmazonPay.setupPayload(/*version*/ '2')
@@ -207,8 +207,6 @@ test('setup directive', () => {
 
   const directive = AmazonPay.setupDirective(payloadBuilder, 'token').build();
 
-  console.log(JSON.stringify(directive));
-
   expect(directive.type).toBe('Connections.SendRequest');
   expect(directive.name).toBe('Setup');
   expect(directive.payload).toEqual(payloadBuilder.build());
@@ -225,8 +223,6 @@ test('charge directive', () => {
     .withPaymentAction(PaymentAction.AUTHORIZE);
 
   const directive = AmazonPay.chargeDirective(payloadBuilder, 'token').build();
-
-  console.log(JSON.stringify(directive));
 
   expect(directive.type).toBe('Connections.SendRequest');
   expect(directive.name).toBe('Charge');

@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/danielneu/amazonpay-alexa-utils.svg?branch=master)](https://travis-ci.org/danielneu/amazonpay-alexa-utils)
 
-## Example
+## Setup API
 
-### Setup API
+Build payloads for setup operations the easy way -  no need to know the pyload structure. The builder will take care to give you the right format.
 
 ```javascript
 const AmazonPay = require('amazonpay-alexa-utils');
@@ -52,7 +52,9 @@ console.log(JSON.stringify(payload))
 } 
 ```
 
-### Charge API
+## Charge API
+
+Build payloads for charge operations the easy way -  no need to know the pyload structure. The builder will take care to give you the right format.
 
 ```javascript
 const AmazonPay = require('amazonpay-alexa-utils');
@@ -106,7 +108,12 @@ console.log(JSON.stringify(payload))
   }
 ```
 
-### Setup Directives
+## Directives
+
+Directives allow you to execute Amazon Pay operations. Just pass in the right payload and the DirectiveBuilder will hand you the correct directive to execute.
+
+### Setup
+
 ```javascript
 const AmazonPay = require('amazonpay-alexa-utils');
 
@@ -138,7 +145,8 @@ console.log(JSON.stringify(directive));
 
 ```
 
-### Charge Directives
+### Charge
+
 ```javascript
 const AmazonPay = require('amazonpay-alexa-utils');
 
@@ -182,7 +190,12 @@ const directive = AmazonPay
 
 ```
 
+## Permissions
+
 ### Get Permission Status
+
+Knowing if a custoemr has accepted Amazon Pay permissions is essential. The following method makes this job as easy as possible for you.
+
 ```javascript
 const AmazonPay = require('amazonpay-alexa-utils');
 
@@ -191,7 +204,7 @@ const permissionIsGranted = AmazonPay.isAmazonPayPermissionGranted(handlerInput.
 ```
 
 
-### Ask For Permissions
+### Ask For Permissions - send card andprompt
 ```javascript
 const AmazonPay = require('amazonpay-alexa-utils');
 
@@ -199,9 +212,31 @@ const response = AmazonPay.askForPermissionCard('Spoken message to ask for permi
   .withAdditionalPermissions(['alexa::profile:email:read', 'alexa::profile:name:read'])
   .send();
 ```
-## COMING SOON
 
-### Charge online
+## Amazon Pay Buyer Id
+
+The concept of Buyer Id allows you to skip account linking for known Amazon Pay customers.
+Use this simple abstraction to get the buyerId.
+
+Please check for the Amazon Pay Permission first.
+```javascript
+  const AmazonPay = require('amazonpay-alexa-utils');
+
+  async handle: {
+  ...
+
+  // use this to have the current locale decide for the region to use
+  const buyerId = await AmazonPay.getBuyerIdForLocale(requestEnvelope);
+  
+  // if you know the correct region, you can specify it yourself
+  const buyerId = await AmazonPay.getBuyerIdForRegion(requestEnvelope, 'EU');
+  ...
+  }
+```
+
+# COMING SOON
+
+## Charge online
 ```javascript
 
 AmazonPay.chargeOnline()
@@ -212,11 +247,9 @@ AmazonPay.chargeOnline()
     .registerOn(skillBuilder);
 ```
 
-### Decline handler
+## Decline handler
 
-### Error handler
+## Error handler
 
-### Buyer Id convenience functions
-
-### DeclineSimulator for Sandbox
+## DeclineSimulator for Sandbox
 
