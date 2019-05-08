@@ -72,7 +72,7 @@ export class BuyerIdClient {
     ['es-US', Region.NA],
     ['en-CA', Region.NA],
     ['fr-CA', Region.NA],
-    ['jp-JP', Region.JP],
+    ['ja-JP', Region.JP],
   ]);
 
   private static regionEndpointMapping = new Map([
