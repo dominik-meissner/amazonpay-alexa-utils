@@ -8,6 +8,9 @@ To install it into your project, simply execute `npm i amazonpay-alexa-utils --s
 
 Build payloads for setup operations the easy way -  no need to know the pyload structure. The builder will take care to give you the right format.
 
+
+Learn more about the [Amazon Pay Setup API](https://developer.amazon.com/de/docs/amazon-pay/amazon-pay-apis-for-alexa.html#setup)
+
 ```javascript
 const AmazonPay = require('amazonpay-alexa-utils');
 
@@ -57,6 +60,9 @@ console.log(JSON.stringify(payload))
 ## Charge API
 
 Build payloads for charge operations the easy way -  no need to know the pyload structure. The builder will take care to give you the right format.
+
+
+Learn more about the [Amazon Pay Charge API](https://developer.amazon.com/de/docs/amazon-pay/amazon-pay-apis-for-alexa.html#charge)
 
 ```javascript
 const AmazonPay = require('amazonpay-alexa-utils');
@@ -220,7 +226,7 @@ const response = AmazonPay.askForPermissionCard('Spoken message to ask for permi
 The concept of Buyer Id allows you to skip account linking for known Amazon Pay customers.
 Use this simple abstraction to get the buyerId.
 
-Please check for the Amazon Pay Permission first.
+Please check for the Amazon Pay permission first.
 ```javascript
   const AmazonPay = require('amazonpay-alexa-utils');
 
