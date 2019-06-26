@@ -31,16 +31,23 @@ export function getBuyerIdForRegion(requestEnvelope: RequestEnvelope, region: Re
   return BuyerIdClient.getBuyerIdForRegion(requestEnvelope, region);
 }
 
-export function getDefaultAddressForLocale(requestEnvelope: RequestEnvelope, environment: Environment): Promise<any> {
-  return DefaultAddressClient.getDefaultAdressForLocale(requestEnvelope, environment);
+export function getDefaultAddressForLocale(
+  requestEnvelope: RequestEnvelope,
+  environment: Environment,
+  sellerId: string,
+  sandboxEmail?: string,
+): Promise<any> {
+  return DefaultAddressClient.getDefaultAdressForLocale(requestEnvelope, environment, sellerId, sandboxEmail);
 }
 
 export function getDefaultAddressForRegion(
   requestEnvelope: RequestEnvelope,
   region: Region,
   environment: Environment,
+  sellerId: string,
+  sandboxEmail?: string,
 ): Promise<any> {
-  return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, environment);
+  return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, environment, sellerId, sandboxEmail);
 }
 
 export function isAmazonPayPermissionGranted(requestEnvelope: RequestEnvelope): boolean {

@@ -5,8 +5,19 @@ import { Environment } from '../model/Environment';
 import { Region } from '../model/Region';
 import { Utilities } from '../Utilities/Utilities';
 
+interface IHeader {
+  Accept: string;
+  Authorization: string;
+  [key: string]: string;
+}
+
 export class DefaultAddressClient {
-  public static getDefaultAdressForLocale(requestEnvelope: RequestEnvelope, environment: Environment): Promise<any> {
+  public static getDefaultAdressForLocale(
+    requestEnvelope: RequestEnvelope,
+    environment: Environment,
+    sellerId: string,
+    sandboxEmail?: string,
+  ): Promise<any> {
     const locale = Alexa.getLocale(requestEnvelope);
     if (locale === '') {
       throw new Error('locale needs to be defined');
@@ -15,28 +26,39 @@ export class DefaultAddressClient {
     if (region === undefined) {
       region = Region.DEFAULT;
     }
-    return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, environment);
+    return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, environment, sellerId, sandboxEmail);
   }
 
   public static getDefaultAdressForRegion(
     requestEnvelope: RequestEnvelope,
     region: Region,
     environment: Environment,
+    sellerId: string,
+    sandboxEmail?: string,
   ): Promise<any> {
     return new Promise((resolve, reject) => {
+      if (environment === Environment.SANDBOX && sandboxEmail === undefined) {
+        throw new Error('sandbox email needs to be defined for the sandbox environment');
+      }
       const accessToken = Alexa.getApiAccessToken(requestEnvelope);
-      const addressPath = `${Utilities.getBasePath(environment)}${DefaultAddressClient.addressPathSegment}`;
+      const addressPath = `${Utilities.getBasePath(environment)}${
+        DefaultAddressClient.addressPathSegment
+      }?requestorId=${sellerId}`;
       if (region !== undefined) {
+        const header: IHeader = {
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + accessToken,
+        };
         const options = {
-          headers: {
-            Accept: 'application/json',
-            Authorization: 'Bearer ' + accessToken,
-          },
+          headers: header,
           hostname: Utilities.regionEndpointMapping.get(region),
           method: 'GET',
           path: addressPath,
           port: 443,
         };
+        if (environment === Environment.SANDBOX && sandboxEmail !== undefined) {
+          options.headers['x-amz-pay-sandbox-email-id'] = sandboxEmail;
+        }
 
         const request = https.request(options, response => {
           const { statusCode } = response;
@@ -53,7 +75,7 @@ export class DefaultAddressClient {
           });
           response.on('end', () => {
             const jsonBody = JSON.parse(body);
-            resolve(jsonBody.buyerId);
+            resolve(jsonBody);
           });
         });
 

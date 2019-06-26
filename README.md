@@ -221,6 +221,27 @@ const response = AmazonPay.askForPermissionCard('Spoken message to ask for permi
   .send();
 ```
 
+## Amazon Pay Address API
+
+Amazon Pay offers access to different buyer data via the AMazpn Pay payment objects. SOmetimes, this is too late in the flow to personalize the experience.
+The Amazon Pay address API was introduced to circumvent this situation. TRetrieve the defualt shippign address of the current buyer via a simple GET request.
+
+Please check for accepted Amazon Pay permissions first.
+```javascript
+  const AmazonPay = require('amazonpay-alexa-utils');
+
+  async handle: {
+  ...
+
+  // use this to have the current locale decide for the region to use
+  const defaultAddress = await AmazonPay.getDefaultAddressForLocale(requestEnvelope, environment, merchantId);
+  
+  // if you know the correct region, you can specify it yourself
+  const buyerId = await AmazonPay.getBuyerIdForRegion(requestEnvelope, region, environment, merchantId);
+  ...
+  }
+```
+
 ## Amazon Pay Buyer Id
 
 The concept of Buyer Id allows you to skip account linking for known Amazon Pay customers.
