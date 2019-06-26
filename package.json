@@ -21,7 +21,7 @@
     "lib/**/*"
   ],
   "author": "Daniel Neu",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "private": false,
   "devDependencies": {
     "@types/jest": "^24.0.11",
