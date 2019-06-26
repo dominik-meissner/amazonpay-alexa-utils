@@ -5,6 +5,8 @@ import { ChargeDirectiveBuilder } from './checkout/charge/ChargeDirectiveBuilder
 import { ChargePayloadBuilder } from './checkout/charge/ChargePayloadBuilder';
 import { SetupDirectiveBuilder } from './checkout/setup/SetupDirectiveBuilder';
 import { SetupPayloadBuilder } from './checkout/setup/SetupPayloadBuilder';
+import { DefaultAddressClient } from './defaultAddress/DefaultAddressClient';
+import { Environment } from './model/Environment';
 import { Region } from './model/Region';
 import { PermissionCardBuilder } from './permissions/PermissionCardBuilder';
 import { PermissionManager } from './permissions/PermissionManager';
@@ -27,6 +29,18 @@ export function getBuyerIdForLocale(requestEnvelope: RequestEnvelope): Promise<a
 
 export function getBuyerIdForRegion(requestEnvelope: RequestEnvelope, region: Region): Promise<any> {
   return BuyerIdClient.getBuyerIdForRegion(requestEnvelope, region);
+}
+
+export function getDefaultAddressForLocale(requestEnvelope: RequestEnvelope, environment: Environment): Promise<any> {
+  return DefaultAddressClient.getDefaultAdressForLocale(requestEnvelope, environment);
+}
+
+export function getDefaultAddressForRegion(
+  requestEnvelope: RequestEnvelope,
+  region: Region,
+  environment: Environment,
+): Promise<any> {
+  return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, environment);
 }
 
 export function isAmazonPayPermissionGranted(requestEnvelope: RequestEnvelope): boolean {

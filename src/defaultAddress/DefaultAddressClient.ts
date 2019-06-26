@@ -5,8 +5,8 @@ import { Environment } from '../model/Environment';
 import { Region } from '../model/Region';
 import { Utilities } from '../Utilities/Utilities';
 
-export class BuyerIdClient {
-  public static getBuyerIdForLocale(requestEnvelope: RequestEnvelope): Promise<any> {
+export class DefaultAddressClient {
+  public static getDefaultAdressForLocale(requestEnvelope: RequestEnvelope, environment: Environment): Promise<any> {
     const locale = Alexa.getLocale(requestEnvelope);
     if (locale === '') {
       throw new Error('locale needs to be defined');
@@ -15,13 +15,17 @@ export class BuyerIdClient {
     if (region === undefined) {
       region = Region.DEFAULT;
     }
-    return BuyerIdClient.getBuyerIdForRegion(requestEnvelope, region);
+    return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, environment);
   }
 
-  public static getBuyerIdForRegion(requestEnvelope: RequestEnvelope, region: Region): Promise<any> {
+  public static getDefaultAdressForRegion(
+    requestEnvelope: RequestEnvelope,
+    region: Region,
+    environment: Environment,
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
       const accessToken = Alexa.getApiAccessToken(requestEnvelope);
-      const buyeridPath = `${Utilities.getBasePath(Environment.LIVE)}${BuyerIdClient.buyerIdPathSegment}`;
+      const addressPath = `${Utilities.getBasePath(environment)}${DefaultAddressClient.addressPathSegment}`;
       if (region !== undefined) {
         const options = {
           headers: {
@@ -30,7 +34,7 @@ export class BuyerIdClient {
           },
           hostname: Utilities.regionEndpointMapping.get(region),
           method: 'GET',
-          path: buyeridPath,
+          path: addressPath,
           port: 443,
         };
 
@@ -62,5 +66,5 @@ export class BuyerIdClient {
     });
   }
 
-  private static buyerIdPathSegment = 'id';
+  private static addressPathSegment = 'addresses';
 }
