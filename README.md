@@ -237,7 +237,7 @@ Please check for accepted Amazon Pay permissions first.
   const defaultAddress = await AmazonPay.getDefaultAddressForLocale(requestEnvelope, environment, merchantId);
   
   // if you know the correct region, you can specify it yourself
-  const buyerId = await AmazonPay.getBuyerIdForRegion(requestEnvelope, region, environment, merchantId);
+  const defaultAddress = await AmazonPay.getDefaultAddressForRegion(requestEnvelope, region, environment, merchantId);
   ...
   }
 ```
