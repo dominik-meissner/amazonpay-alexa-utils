@@ -3,7 +3,7 @@ import { RequestEnvelope } from 'ask-sdk-model';
 import * as https from 'https';
 import { Environment } from '../model/Environment';
 import { Region } from '../model/Region';
-import { Utilities } from '../Utilities/Utilities';
+import { Utilities } from '../utilities/Utilities';
 
 export class BuyerIdClient {
   public static getBuyerIdForLocale(requestEnvelope: RequestEnvelope): Promise<any> {
