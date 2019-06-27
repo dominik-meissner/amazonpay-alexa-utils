@@ -6,6 +6,18 @@ import { Region } from '../model/Region';
 import { Utilities } from '../utilities/Utilities';
 
 export class BuyerIdClient {
+  public static getBuyerId(requestEnvelope: RequestEnvelope): Promise<any> {
+    const alexaApiEndpoint = requestEnvelope.context.System.apiEndpoint;
+    let region = Utilities.alexaAPiEndpointToRegionMapping.get(alexaApiEndpoint);
+    if (region === undefined) {
+      region = Region.DEFAULT;
+    }
+    return BuyerIdClient.getBuyerIdForRegion(requestEnvelope, region);
+  }
+
+  /**
+   * @deprecated Since version 1.1.0. Will be deleted in version 2.0. Use getBuyerId or getBuyerIdForRegion instead.
+   */
   public static getBuyerIdForLocale(requestEnvelope: RequestEnvelope): Promise<any> {
     const locale = Alexa.getLocale(requestEnvelope);
     if (locale === '') {

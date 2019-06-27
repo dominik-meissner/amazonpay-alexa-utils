@@ -2,6 +2,6 @@ export enum Region {
   EU = 'EU',
   NA = 'NA',
   UK = 'EU',
-  JP = 'JP',
+  FE = 'FE',
   DEFAULT = 'NA',
 }

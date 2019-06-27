@@ -223,8 +223,8 @@ const response = AmazonPay.askForPermissionCard('Spoken message to ask for permi
 
 ## Amazon Pay Address API
 
-Amazon Pay offers access to different buyer data via the AMazpn Pay payment objects. SOmetimes, this is too late in the flow to personalize the experience.
-The Amazon Pay address API was introduced to circumvent this situation. TRetrieve the defualt shippign address of the current buyer via a simple GET request.
+Amazon Pay offers access to different buyer data via the Amazon Pay payment objects. Sometimes, this is too late in the flow to personalize the experience.
+The Amazon Pay address API was introduced to circumvent this situation. Retrieve the default shipping address of the current buyer via a simple GET request.
 
 Please check for accepted Amazon Pay permissions first.
 ```javascript
@@ -234,10 +234,10 @@ Please check for accepted Amazon Pay permissions first.
   ...
 
   // use this to have the current locale decide for the region to use
-  const defaultAddress = await AmazonPay.getDefaultAddressForLocale(requestEnvelope, environment, merchantId);
+  const defaultAddress = await AmazonPay.getDefaultAddress(requestEnvelope, merchantId);
   
-  // if you know the correct region, you can specify it yourself
-  const defaultAddress = await AmazonPay.getDefaultAddressForRegion(requestEnvelope, region, environment, merchantId);
+  // if you want to specify the region yourself
+  const defaultAddress = await AmazonPay.getDefaultAddressForRegion(requestEnvelope, region, merchantId);
   ...
   }
 ```
@@ -255,10 +255,10 @@ Please check for the Amazon Pay permission first.
   ...
 
   // use this to have the current locale decide for the region to use
-  const buyerId = await AmazonPay.getBuyerIdForLocale(requestEnvelope);
+  const buyerId = await AmazonPay.getBuyerId(requestEnvelope);
   
-  // if you know the correct region, you can specify it yourself
-  const buyerId = await AmazonPay.getBuyerIdForRegion(requestEnvelope, 'EU');
+  // if you want to specify the region yourself
+  const buyerId = await AmazonPay.getBuyerIdForRegion(requestEnvelope, region);
   ...
   }
 ```

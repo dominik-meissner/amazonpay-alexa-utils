@@ -23,6 +23,12 @@ export function chargePayload(version: string): ChargePayloadBuilder {
   return new ChargePayloadBuilder(version);
 }
 
+export function getBuyerId(requestEnvelope: RequestEnvelope): Promise<any> {
+  return BuyerIdClient.getBuyerId(requestEnvelope);
+}
+/**
+ * @deprecated Since version 1.1.0. Will be deleted in version 2.0. Use getBuyerId or getBuyerIdForRegion instead.
+ */
 export function getBuyerIdForLocale(requestEnvelope: RequestEnvelope): Promise<any> {
   return BuyerIdClient.getBuyerIdForLocale(requestEnvelope);
 }
@@ -31,23 +37,35 @@ export function getBuyerIdForRegion(requestEnvelope: RequestEnvelope, region: Re
   return BuyerIdClient.getBuyerIdForRegion(requestEnvelope, region);
 }
 
-export function getDefaultAddressForLocale(
+export function getDefaultAddress(
   requestEnvelope: RequestEnvelope,
-  environment: Environment,
   sellerId: string,
+  environment?: Environment,
   sandboxEmail?: string,
 ): Promise<any> {
-  return DefaultAddressClient.getDefaultAdressForLocale(requestEnvelope, environment, sellerId, sandboxEmail);
+  return DefaultAddressClient.getDefaultAdress(requestEnvelope, sellerId, environment, sandboxEmail);
+}
+
+/**
+ * @deprecated Since version 1.1.0. Will be deleted in version 2.0. Use getDefaultAddress or getDefaultAddressForRegion instead.
+ */
+export function getDefaultAddressForLocale(
+  requestEnvelope: RequestEnvelope,
+  sellerId: string,
+  environment?: Environment,
+  sandboxEmail?: string,
+): Promise<any> {
+  return DefaultAddressClient.getDefaultAdressForLocale(requestEnvelope, sellerId, environment, sandboxEmail);
 }
 
 export function getDefaultAddressForRegion(
   requestEnvelope: RequestEnvelope,
   region: Region,
-  environment: Environment,
   sellerId: string,
+  environment?: Environment,
   sandboxEmail?: string,
 ): Promise<any> {
-  return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, environment, sellerId, sandboxEmail);
+  return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, sellerId, environment, sandboxEmail);
 }
 
 export function isAmazonPayPermissionGranted(requestEnvelope: RequestEnvelope): boolean {

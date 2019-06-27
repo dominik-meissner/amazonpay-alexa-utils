@@ -12,10 +12,27 @@ interface IHeader {
 }
 
 export class DefaultAddressClient {
+  public static getDefaultAdress(
+    requestEnvelope: RequestEnvelope,
+    sellerId: string,
+    environment?: Environment,
+    sandboxEmail?: string,
+  ): Promise<any> {
+    const alexaApiEndpoint = requestEnvelope.context.System.apiEndpoint;
+    let region = Utilities.alexaAPiEndpointToRegionMapping.get(alexaApiEndpoint);
+    if (region === undefined) {
+      region = Region.DEFAULT;
+    }
+    return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, sellerId, environment, sandboxEmail);
+  }
+
+  /**
+   * @deprecated Since version 1.1.0. Will be deleted in version 2.0. Use getDefaultAddress or getDefaultAddressForRegion instead.
+   */
   public static getDefaultAdressForLocale(
     requestEnvelope: RequestEnvelope,
-    environment: Environment,
     sellerId: string,
+    environment?: Environment,
     sandboxEmail?: string,
   ): Promise<any> {
     const locale = Alexa.getLocale(requestEnvelope);
@@ -26,20 +43,25 @@ export class DefaultAddressClient {
     if (region === undefined) {
       region = Region.DEFAULT;
     }
-    return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, environment, sellerId, sandboxEmail);
+    return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, sellerId, environment, sandboxEmail);
   }
 
   public static getDefaultAdressForRegion(
     requestEnvelope: RequestEnvelope,
     region: Region,
-    environment: Environment,
     sellerId: string,
+    environment?: Environment,
     sandboxEmail?: string,
   ): Promise<any> {
     return new Promise((resolve, reject) => {
+      if (environment === undefined) {
+        environment = Environment.LIVE;
+      }
+
       if (environment === Environment.SANDBOX && sandboxEmail === undefined) {
         throw new Error('sandbox email needs to be defined for the sandbox environment');
       }
+
       const accessToken = Alexa.getApiAccessToken(requestEnvelope);
       const addressPath = `${Utilities.getBasePath(environment)}${
         DefaultAddressClient.addressPathSegment
