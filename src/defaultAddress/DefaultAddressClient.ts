@@ -65,7 +65,7 @@ export class DefaultAddressClient {
       const accessToken = Alexa.getApiAccessToken(requestEnvelope);
       const addressPath = `${Utilities.getBasePath(environment)}${
         DefaultAddressClient.addressPathSegment
-      }?requestorId=${sellerId}`;
+      }?sellerId=${sellerId}`;
       if (region !== undefined) {
         const header: IHeader = {
           Accept: 'application/json',
