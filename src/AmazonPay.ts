@@ -1,11 +1,11 @@
 import { RequestEnvelope } from 'ask-sdk-model';
 
+import { BuyerAddressClient } from './buyerAddress/BuyerAddressClient';
 import { BuyerIdClient } from './buyerid/BuyerIdClient';
 import { ChargeDirectiveBuilder } from './checkout/charge/ChargeDirectiveBuilder';
 import { ChargePayloadBuilder } from './checkout/charge/ChargePayloadBuilder';
 import { SetupDirectiveBuilder } from './checkout/setup/SetupDirectiveBuilder';
 import { SetupPayloadBuilder } from './checkout/setup/SetupPayloadBuilder';
-import { DefaultAddressClient } from './defaultAddress/DefaultAddressClient';
 import { Environment } from './model/Environment';
 import { Region } from './model/Region';
 import { PermissionCardBuilder } from './permissions/PermissionCardBuilder';
@@ -43,7 +43,7 @@ export function getDefaultAddress(
   environment?: Environment,
   sandboxEmail?: string,
 ): Promise<any> {
-  return DefaultAddressClient.getDefaultAdress(requestEnvelope, sellerId, environment, sandboxEmail);
+  return BuyerAddressClient.getBuyerAddress(requestEnvelope, sellerId, environment, sandboxEmail);
 }
 
 /**
@@ -55,7 +55,7 @@ export function getDefaultAddressForLocale(
   environment?: Environment,
   sandboxEmail?: string,
 ): Promise<any> {
-  return DefaultAddressClient.getDefaultAdressForLocale(requestEnvelope, sellerId, environment, sandboxEmail);
+  return BuyerAddressClient.getBuyerAddressForLocale(requestEnvelope, sellerId, environment, sandboxEmail);
 }
 
 export function getDefaultAddressForRegion(
@@ -65,7 +65,7 @@ export function getDefaultAddressForRegion(
   environment?: Environment,
   sandboxEmail?: string,
 ): Promise<any> {
-  return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, sellerId, environment, sandboxEmail);
+  return BuyerAddressClient.getBuyerAddressForRegion(requestEnvelope, region, sellerId, environment, sandboxEmail);
 }
 
 export function isAmazonPayPermissionGranted(requestEnvelope: RequestEnvelope): boolean {

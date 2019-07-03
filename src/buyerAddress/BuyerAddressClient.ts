@@ -11,8 +11,8 @@ interface IHeader {
   [key: string]: string;
 }
 
-export class DefaultAddressClient {
-  public static getDefaultAdress(
+export class BuyerAddressClient {
+  public static getBuyerAddress(
     requestEnvelope: RequestEnvelope,
     sellerId: string,
     environment?: Environment,
@@ -23,13 +23,13 @@ export class DefaultAddressClient {
     if (region === undefined) {
       region = Region.DEFAULT;
     }
-    return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, sellerId, environment, sandboxEmail);
+    return BuyerAddressClient.getBuyerAddressForRegion(requestEnvelope, region, sellerId, environment, sandboxEmail);
   }
 
   /**
-   * @deprecated Since version 1.1.0. Will be deleted in version 2.0. Use getDefaultAddress or getDefaultAddressForRegion instead.
+   * @deprecated Since version 1.1.0. Will be deleted in version 2.0. Use getBuyerAdress or getBuyerAdressForRegion instead.
    */
-  public static getDefaultAdressForLocale(
+  public static getBuyerAddressForLocale(
     requestEnvelope: RequestEnvelope,
     sellerId: string,
     environment?: Environment,
@@ -43,10 +43,10 @@ export class DefaultAddressClient {
     if (region === undefined) {
       region = Region.DEFAULT;
     }
-    return DefaultAddressClient.getDefaultAdressForRegion(requestEnvelope, region, sellerId, environment, sandboxEmail);
+    return BuyerAddressClient.getBuyerAddressForRegion(requestEnvelope, region, sellerId, environment, sandboxEmail);
   }
 
-  public static getDefaultAdressForRegion(
+  public static getBuyerAddressForRegion(
     requestEnvelope: RequestEnvelope,
     region: Region,
     sellerId: string,
@@ -64,7 +64,7 @@ export class DefaultAddressClient {
 
       const accessToken = Alexa.getApiAccessToken(requestEnvelope);
       const addressPath = `${Utilities.getBasePath(environment)}${
-        DefaultAddressClient.addressPathSegment
+        BuyerAddressClient.addressPathSegment
       }?sellerId=${sellerId}`;
       if (region !== undefined) {
         const header: IHeader = {

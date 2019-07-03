@@ -221,10 +221,10 @@ const response = AmazonPay.askForPermissionCard('Spoken message to ask for permi
   .send();
 ```
 
-## Amazon Pay Address API
+## Amazon Pay Buyer Address API
 
 Amazon Pay offers access to different buyer data via the Amazon Pay payment objects. Sometimes, this is too late in the flow to personalize the experience.
-The Amazon Pay address API was introduced to circumvent this situation. Retrieve the default shipping address of the current buyer via a simple GET request.
+The Amazon Pay Buyer Address API was introduced to circumvent this situation. Retrieve the default shipping address of the current buyer via a simple GET request.
 
 Please check for accepted Amazon Pay permissions first.
 ```javascript
@@ -234,10 +234,10 @@ Please check for accepted Amazon Pay permissions first.
   ...
 
   // use this to have the current locale decide for the region to use
-  const defaultAddress = await AmazonPay.getDefaultAddress(requestEnvelope, merchantId);
+  const buyerAddress = await AmazonPay.getBuyerAddress(requestEnvelope, sellertId);
   
   // if you want to specify the region yourself
-  const defaultAddress = await AmazonPay.getDefaultAddressForRegion(requestEnvelope, region, merchantId);
+  const buyerAddress = await AmazonPay.getBuyerAddressForRegion(requestEnvelope, region, sellerId);
   ...
   }
 ```
