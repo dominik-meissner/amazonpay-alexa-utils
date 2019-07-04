@@ -37,7 +37,7 @@ export function getBuyerIdForRegion(requestEnvelope: RequestEnvelope, region: Re
   return BuyerIdClient.getBuyerIdForRegion(requestEnvelope, region);
 }
 
-export function getDefaultAddress(
+export function getBuyerAddress(
   requestEnvelope: RequestEnvelope,
   sellerId: string,
   environment?: Environment,
@@ -49,7 +49,7 @@ export function getDefaultAddress(
 /**
  * @deprecated Since version 1.1.0. Will be deleted in version 2.0. Use getDefaultAddress or getDefaultAddressForRegion instead.
  */
-export function getDefaultAddressForLocale(
+export function getBuyerAddressForLocale(
   requestEnvelope: RequestEnvelope,
   sellerId: string,
   environment?: Environment,
@@ -58,7 +58,7 @@ export function getDefaultAddressForLocale(
   return BuyerAddressClient.getBuyerAddressForLocale(requestEnvelope, sellerId, environment, sandboxEmail);
 }
 
-export function getDefaultAddressForRegion(
+export function getBuyerAddressForRegion(
   requestEnvelope: RequestEnvelope,
   region: Region,
   sellerId: string,
