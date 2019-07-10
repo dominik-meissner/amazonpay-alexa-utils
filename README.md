@@ -223,10 +223,12 @@ const response = AmazonPay.askForPermissionCard('Spoken message to ask for permi
 
 ## Amazon Pay Buyer Address API
 
-Amazon Pay offers access to different buyer data via the Amazon Pay payment objects. Sometimes, this is too late in the flow to personalize the experience.
-The Amazon Pay Buyer Address API was introduced to circumvent this situation. Retrieve the default shipping address of the current buyer via a simple GET request.
+Amazon Pay helps you fullfilling your oders seamlessly, by - among others - offering delivery address data via the Amazon Pay payment objects. Sometimes, this is too late in the flow to personalize the experience.
+The Amazon Pay Buyer Address API was introduced to help you out. Retrieve the default shipping address of the current buyer via a simple GET request whenever you need it.
 
-Please check for accepted Amazon Pay permissions first.
+Please check for granted Amazon Pay permissions first.
+
+Learn more about the [Amazon Pay Buyer Address API](https://developer.amazon.com/de/docs/amazon-pay/amazon-pay-apis-for-alexa.html#buyer_address).
 ```javascript
   const AmazonPay = require('amazonpay-alexa-utils');
 
@@ -234,7 +236,7 @@ Please check for accepted Amazon Pay permissions first.
   ...
 
   // use this to have the current locale decide for the region to use
-  const buyerAddress = await AmazonPay.getBuyerAddress(requestEnvelope, sellertId);
+  const buyerAddress = await AmazonPay.getBuyerAddress(requestEnvelope, sellerId);
   
   // if you want to specify the region yourself
   const buyerAddress = await AmazonPay.getBuyerAddressForRegion(requestEnvelope, region, sellerId);
@@ -244,10 +246,13 @@ Please check for accepted Amazon Pay permissions first.
 
 ## Amazon Pay Buyer Id
 
-The concept of Buyer Id allows you to skip account linking for known Amazon Pay customers.
-Use this simple abstraction to get the buyerId.
+The Amazon Pay Buyer Id allows you to personalize the experience immediately for Amazon Pay customers already known to you - without asking them to link accounts.
+The Id is static, even if a customer deactivated the skill in the past and is consistent across channels.
+Use this simple abstraction to retrieve it.
 
-Please check for the Amazon Pay permission first.
+Please check for granted Amazon Pay permission first.
+
+Learn more about the [Amazon Pay Buyer Id API](https://developer.amazon.com/de/docs/amazon-pay/amazon-pay-apis-for-alexa.html#buyer_id).
 ```javascript
   const AmazonPay = require('amazonpay-alexa-utils');
 
