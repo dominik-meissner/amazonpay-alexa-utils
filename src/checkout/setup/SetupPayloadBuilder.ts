@@ -1,6 +1,7 @@
 import { interfaces } from 'ask-sdk-model';
 import SetupAmazonPayRequest = interfaces.amazonpay.request.SetupAmazonPayRequest;
 
+import { BillingAgreementType } from '../../model/BillingAgreementType';
 import { Currency } from '../../model/Currency';
 import { SandboxSetting } from '../../model/SandboxSetting';
 import { BillingAgreementAttributesBuilder } from './BillingAgreementAttributesBuilder';
@@ -23,8 +24,12 @@ export class SetupPayloadBuilder {
 
   private hasBAAttributes: boolean = false;
 
+  private billingAgreementType: BillingAgreementType = BillingAgreementType.NOT_DEFINED;
+  private subscriptionAmount: string = this.DUMMY;
+  private subscriptionCurrency: Currency = Currency.NOT_DEFINED;
   private sellerNote: string = this.DUMMY;
   private platformId: string = this.DUMMY;
+
   // sellerAttributes
   private storeName: string = this.DUMMY;
   private customInformation: string = this.DUMMY;
@@ -75,6 +80,36 @@ export class SetupPayloadBuilder {
   public shippingNeeded(needed: boolean): SetupPayloadBuilder {
     this.isShippingNeeded = needed;
     return this;
+  }
+
+  public withBillingAgreementType(billingAgreementType: BillingAgreementType): SetupPayloadBuilder {
+    this.hasBAAttributes = true;
+    this.billingAgreementType = billingAgreementType;
+    return this;
+  }
+
+  public setBillingAgreementType(billingAgreementType: BillingAgreementType): SetupPayloadBuilder {
+    return this.withBillingAgreementType(billingAgreementType);
+  }
+
+  public withSubscriptionAmount(amount: string): SetupPayloadBuilder {
+    this.hasBAAttributes = true;
+    this.subscriptionAmount = amount;
+    return this;
+  }
+
+  public setSubscriptionAmount(amount: string): SetupPayloadBuilder {
+    return this.withSubscriptionAmount(amount);
+  }
+
+  public withSubscriptionCurrency(currency: Currency): SetupPayloadBuilder {
+    this.hasBAAttributes = true;
+    this.subscriptionCurrency = currency;
+    return this;
+  }
+
+  public setSubscriptionCurrency(currency: Currency): SetupPayloadBuilder {
+    return this.withSubscriptionCurrency(currency);
   }
 
   public withSellerNote(sellerNote: string): SetupPayloadBuilder {
@@ -175,6 +210,9 @@ export class SetupPayloadBuilder {
       const baAttributes = new BillingAgreementAttributesBuilder(this.version)
         .withCustomInformation(this.customInformation)
         .withPlatformId(this.platformId)
+        .withBillingAgreementType(this.billingAgreementType)
+        .withSubscriptionAmount(this.subscriptionAmount)
+        .withSubscriptionCurrency(this.subscriptionCurrency)
         .withSellerBillingAgreementId(this.sellerBillingAgreementId)
         .withSellerNote(this.sellerNote)
         .withStoreName(this.storeName)

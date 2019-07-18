@@ -2,6 +2,7 @@ import * as AmazonPay from '../AmazonPay';
 import { Currency } from '../model/Currency';
 import { SandboxSetting } from '../model/SandboxSetting';
 import { PaymentAction } from '../model/PaymentAction';
+import { BillingAgreementType } from '../model/BillingAgreementType';
 
 test('setupPayload full', () => {
   const payload = AmazonPay.setupPayload(/*version*/ '2')
@@ -11,6 +12,7 @@ test('setupPayload full', () => {
     .withCheckoutLanguage('en_GB')
     .withCustomInformation('so custom')
     .withPlatformId('ABCDE')
+    .withBillingAgreementType(BillingAgreementType.CIT)
     .withSellerBillingAgreementId('12345')
     .withSellerNote('my note')
     .withStoreName('my store')
@@ -31,6 +33,7 @@ test('setupPayload full', () => {
     billingAgreementAttributes: {
       '@type': 'BillingAgreementAttributes',
       '@version': '2',
+      billingAgreementType: 'CustomerInitiatedTransaction',
       sellerNote: 'my note',
       platformId: 'ABCDE',
       sellerBillingAgreementAttributes: {
@@ -228,4 +231,24 @@ test('charge directive', () => {
   expect(directive.name).toBe('Charge');
   expect(directive.payload).toEqual(payloadBuilder.build());
   expect(directive.token).toBe('token');
+
+
+  const payload = AmazonPay.setupPayload(/*version*/ '2')
+    .withSellerId('ABCD1234ADS')
+    .withCountryOfEstablishment('DE')
+    .withLedgerCurrency(Currency.EUR)
+    .withCheckoutLanguage('en_GB')
+    .withBillingAgreementType(BillingAgreementType.MIT)
+    .withSubscriptionAmount('19.99')
+    .withSubscriptionCurrency(Currency.EUR)
+    .withCustomInformation('so custom')
+    .withPlatformId('ABCDE')
+    .withSellerBillingAgreementId('12345')
+    .withSellerNote('my note')
+    .withStoreName('my store')
+    .shippingNeeded(true)
+    .onSandbox(new SandboxSetting('mysandbox@email.test'))
+    .build();
+
+    console.log(JSON.stringify(payload));
 });

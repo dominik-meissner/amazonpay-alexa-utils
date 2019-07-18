@@ -1,5 +1,9 @@
 import { interfaces } from 'ask-sdk-model';
 import BillingAgreementAttributes = interfaces.amazonpay.model.v1.BillingAgreementAttributes;
+import Price = interfaces.amazonpay.model.v1.Price;
+
+import { BillingAgreementType } from '../../model/BillingAgreementType';
+import { Currency } from '../../model/Currency';
 
 export class BillingAgreementAttributesBuilder {
   private readonly DUMMY: string = 'dummy';
@@ -11,8 +15,12 @@ export class BillingAgreementAttributesBuilder {
   private addSellerBillingAgreementAttributes: boolean = false;
   private neeToGenerate: boolean = false;
 
+  private billingAgreementType: BillingAgreementType = BillingAgreementType.NOT_DEFINED;
+  private subscriptionAmount: string = this.DUMMY;
+  private subscriptionCurrency: Currency = Currency.NOT_DEFINED;
   private sellerNote: string = this.DUMMY;
   private platformId: string = this.DUMMY;
+
   // sellerAttributes
   private storeName: string = this.DUMMY;
   private customInformation: string = this.DUMMY;
@@ -22,6 +30,36 @@ export class BillingAgreementAttributesBuilder {
     // version can be used to decide for the right fromat in future
     this.version = version;
     this.type = 'BillingAgreementAttributes';
+  }
+
+  public withBillingAgreementType(billingAgreementType: BillingAgreementType): BillingAgreementAttributesBuilder {
+    this.neeToGenerate = true;
+    this.billingAgreementType = billingAgreementType;
+    return this;
+  }
+
+  public setBillingAgreementType(billingAgreementType: BillingAgreementType): BillingAgreementAttributesBuilder {
+    return this.withBillingAgreementType(billingAgreementType);
+  }
+
+  public withSubscriptionAmount(amount: string): BillingAgreementAttributesBuilder {
+    this.neeToGenerate = true;
+    this.subscriptionAmount = amount;
+    return this;
+  }
+
+  public setSubscriptionAmount(amount: string): BillingAgreementAttributesBuilder {
+    return this.withSubscriptionAmount(amount);
+  }
+
+  public withSubscriptionCurrency(currency: Currency): BillingAgreementAttributesBuilder {
+    this.neeToGenerate = true;
+    this.subscriptionCurrency = currency;
+    return this;
+  }
+
+  public setSubscriptionCurrency(currency: Currency): BillingAgreementAttributesBuilder {
+    return this.withSubscriptionCurrency(currency);
   }
 
   public withSellerNote(sellerNote: string): BillingAgreementAttributesBuilder {
@@ -80,6 +118,18 @@ export class BillingAgreementAttributesBuilder {
   public build(): BillingAgreementAttributes {
     let attributes = {};
     if (this.neeToGenerate) {
+      if (
+        this.billingAgreementType === BillingAgreementType.CIT &&
+        (this.subscriptionAmount !== this.DUMMY || this.subscriptionCurrency !== Currency.NOT_DEFINED)
+      ) {
+        throw new Error('SubscriptionAmount and SubscriptionCurrency only defined for MerchantInitiatedTransactions');
+      }
+      if (
+        (this.subscriptionAmount !== this.DUMMY && this.subscriptionCurrency === Currency.NOT_DEFINED) ||
+        (this.subscriptionAmount === this.DUMMY && this.subscriptionCurrency !== Currency.NOT_DEFINED)
+      ) {
+        throw new Error('Both of SubscriptionAmount and SubscriptionCurrency need to be defined or both left empty');
+      }
       attributes = {
         '@type': this.type,
         '@version': this.version,
@@ -90,6 +140,21 @@ export class BillingAgreementAttributesBuilder {
       if (this.platformId !== this.DUMMY) {
         attributes = Object.assign(attributes, { platformId: this.platformId });
       }
+      if (this.billingAgreementType !== BillingAgreementType.NOT_DEFINED) {
+        attributes = Object.assign(attributes, { billingAgreementType: this.billingAgreementType });
+      }
+
+      if (this.subscriptionAmount !== this.DUMMY) {
+        // currency must be set as ell, due to precondition above
+        const subscriptionAmountObject = {
+          '@type': 'Price',
+          '@version': this.version,
+          amount: this.subscriptionAmount,
+          currencyCode: this.subscriptionCurrency,
+        };
+        attributes = Object.assign(attributes, { subscriptionAmount: subscriptionAmountObject });
+      }
+
       if (this.addSellerBillingAgreementAttributes) {
         let innerAttributes = {
           '@type': 'SellerBillingAgreementAttributes',

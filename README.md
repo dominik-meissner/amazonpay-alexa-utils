@@ -17,8 +17,11 @@ const AmazonPay = require('amazonpay-alexa-utils');
 const payload = AmazonPay.setupPayload(/*version*/ '2')
     .withSellerId('ABCD1234ADS')
     .withCountryOfEstablishment('DE')
-    .withLedgerCurrency(LedgerCurrency.EUR)
+    .withLedgerCurrency(Currency.EUR)
     .withCheckoutLanguage('en_GB')
+    .withBillingAgreementType(BillingAgreementType.MIT)
+    .withSubscriptionAmount('19.99')
+    .withSubscriptionCurrency(Currency.EUR)
     .withCustomInformation('so custom')
     .withPlatformId('ABCDE')
     .withSellerBillingAgreementId('12345')
@@ -46,12 +49,19 @@ console.log(JSON.stringify(payload))
         "@version":"2",
         "sellerNote":"my note",
         "platformId":"ABCDE",
+        "billingAgreementType":"MerchantInitiatedTransaction",
+        "subscriptionAmount":{
+            "@type":"Price",
+            "@version":"2",
+            "amount":"19.99",
+            "currencyCode":"EUR"
+        },
         "sellerBillingAgreementAttributes":{  
-        "@type":"SellerBillingAgreementAttributes",
-        "@version":"2",
-        "storeName":"my store",
-        "customInformation":"so custom",
-        "sellerBillingAgreementId":"12345"
+            "@type":"SellerBillingAgreementAttributes",
+            "@version":"2",
+            "storeName":"my store",
+            "customInformation":"so custom",
+            "sellerBillingAgreementId":"12345"
         }
     }
 } 
