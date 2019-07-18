@@ -1,5 +1,6 @@
 import { BillingAgreementAttributesBuilder } from '../../../checkout/setup/BillingAgreementAttributesBuilder';
 import { BillingAgreementType } from '../../../model/BillingAgreementType';
+import { Currency } from '../../../model/Currency';
 
 test('no input, empty object out', () => {
   let result = new BillingAgreementAttributesBuilder('2').build();
@@ -132,7 +133,7 @@ test('check BillingAgreementType is set to CIT, hen CIT is given', () => {
   //expect(result.billingAgreementType).toBe(BillingAgreementType.CIT);
 });
 
-test('check BillingAgreementType is set to MIT, hen MIT is given', () => {
+test('check BillingAgreementType is set to MIT, when MIT is given', () => {
   let result = new BillingAgreementAttributesBuilder('2')
     .setSellerNote('my note')
     .withPlatformId('ABCDE')
@@ -152,4 +153,79 @@ test('check BillingAgreementType is set to MIT, hen MIT is given', () => {
 
   // TODO: add this in, once the interface on the ASK SDK was updated
   //expect(result.billingAgreementType).toBe(BillingAgreementType.CIT);
+});
+
+test('check BillingAgreementType is MIT and subscriptionAmount is set', () => {
+  let result = new BillingAgreementAttributesBuilder('2')
+    .setSellerNote('my note')
+    .withPlatformId('ABCDE')
+    .withBillingAgreementType(BillingAgreementType.MIT)
+    .withSubscriptionAmount('19.99')
+    .withSubscriptionCurrency(Currency.EUR)
+    .build();
+
+  expect(result).toEqual({
+    '@type': 'BillingAgreementAttributes',
+    '@version': '2',
+    billingAgreementType: 'MerchantInitiatedTransaction',
+    subscriptionAmount: {
+      '@type': 'Price',
+      '@version': '2',
+      amount: '19.99',
+      currencyCode: 'EUR',
+    },
+    sellerNote: 'my note',
+    platformId: 'ABCDE',
+  });
+
+  expect(result.sellerNote).toBe('my note');
+  expect(result.platformId).toBe('ABCDE');
+
+  // TODO: add this in, once the interface on the ASK SDK was updated
+  //expect(result.billingAgreementType).toBe(BillingAgreementType.CIT);
+  // TODO: also check for amount when added to interface
+});
+
+test('check BillingAgreementType is MIT and subscriptionCurrency cannot be set, if subscriptionAmount is missing', () => {
+  expect(() => {
+    let result = new BillingAgreementAttributesBuilder('2')
+      .setSellerNote('my note')
+      .withPlatformId('ABCDE')
+      .withBillingAgreementType(BillingAgreementType.MIT)
+      .withSubscriptionCurrency(Currency.EUR)
+      .build();
+  }).toThrowError('Both of SubscriptionAmount and SubscriptionCurrency need to be defined or both left empty');
+});
+
+test('check BillingAgreementType is MIT and subscriptionAmount cannot be set, if subscriptionCurrency is missing', () => {
+  expect(() => {
+    let result = new BillingAgreementAttributesBuilder('2')
+      .setSellerNote('my note')
+      .withPlatformId('ABCDE')
+      .withBillingAgreementType(BillingAgreementType.MIT)
+      .withSubscriptionAmount('19.99')
+      .build();
+  }).toThrowError('Both of SubscriptionAmount and SubscriptionCurrency need to be defined or both left empty');
+});
+
+test('check BillingAgreementType is CIT and subscriptionAmount cannot be set', () => {
+  expect(() => {
+    let result = new BillingAgreementAttributesBuilder('2')
+      .setSellerNote('my note')
+      .withPlatformId('ABCDE')
+      .withBillingAgreementType(BillingAgreementType.CIT)
+      .withSubscriptionAmount('19.99')
+      .build();
+  }).toThrowError('SubscriptionAmount and SubscriptionCurrency only defined for MerchantInitiatedTransactions');
+});
+
+test('check BillingAgreementType is CIT and subscriptionCurrency cannot be set', () => {
+  expect(() => {
+    let result = new BillingAgreementAttributesBuilder('2')
+      .setSellerNote('my note')
+      .withPlatformId('ABCDE')
+      .withBillingAgreementType(BillingAgreementType.CIT)
+      .withSubscriptionCurrency(Currency.EUR)
+      .build();
+  }).toThrowError('SubscriptionAmount and SubscriptionCurrency only defined for MerchantInitiatedTransactions');
 });

@@ -231,24 +231,4 @@ test('charge directive', () => {
   expect(directive.name).toBe('Charge');
   expect(directive.payload).toEqual(payloadBuilder.build());
   expect(directive.token).toBe('token');
-
-
-  const payload = AmazonPay.setupPayload(/*version*/ '2')
-    .withSellerId('ABCD1234ADS')
-    .withCountryOfEstablishment('DE')
-    .withLedgerCurrency(Currency.EUR)
-    .withCheckoutLanguage('en_GB')
-    .withBillingAgreementType(BillingAgreementType.MIT)
-    .withSubscriptionAmount('19.99')
-    .withSubscriptionCurrency(Currency.EUR)
-    .withCustomInformation('so custom')
-    .withPlatformId('ABCDE')
-    .withSellerBillingAgreementId('12345')
-    .withSellerNote('my note')
-    .withStoreName('my store')
-    .shippingNeeded(true)
-    .onSandbox(new SandboxSetting('mysandbox@email.test'))
-    .build();
-
-    console.log(JSON.stringify(payload));
 });
