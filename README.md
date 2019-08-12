@@ -17,18 +17,18 @@ const AmazonPay = require('amazonpay-alexa-utils');
 const payload = AmazonPay.setupPayload(/*version*/ '2')
     .withSellerId('ABCD1234ADS')
     .withCountryOfEstablishment('DE')
-    .withLedgerCurrency(Currency.EUR)
+    .withLedgerCurrency('EUR')
     .withCheckoutLanguage('en_GB')
-    .withBillingAgreementType(BillingAgreementType.MIT)
+    .withBillingAgreementType('MerchantInitiatedTransaction')
     .withSubscriptionAmount('19.99')
-    .withSubscriptionCurrency(Currency.EUR)
+    .withSubscriptionCurrency('EUR')
     .withCustomInformation('so custom')
     .withPlatformId('ABCDE')
     .withSellerBillingAgreementId('12345')
     .withSellerNote('my note')
     .withStoreName('my store')
     .shippingNeeded(true)
-    .onSandbox(new SandboxSetting('mysandbox@email.test'))
+    .onSandbox({'eMail': 'mysandbox@email.test'}))
     .build();
 
 console.log(JSON.stringify(payload))
@@ -80,10 +80,10 @@ const AmazonPay = require('amazonpay-alexa-utils');
 const payload = AmazonPay.chargePayload(/* version */ '2')
     .withSellerId('ABCD1234ADS')
     .withBillingAgreementId('B02-12345-12345')
-    .withPaymentAction(PaymentAction.AUTHORIZEANDCAPTURE)
+    .withPaymentAction('AUTHORIZEANDCAPTURE')
     .withAuthorizationReferenceId('ref')
     .withAmount('50')
-    .withCurrency(Currency.EUR)
+    .withCurrency('EUR')
     .withTransactionTimeout('0')
     .withSellerAuthorizationNote('my auth note')
     .withSoftDescriptor('my store - Alexa skill')
@@ -138,7 +138,7 @@ const AmazonPay = require('amazonpay-alexa-utils');
 const payloadBuilder = AmazonPay.setupPayload(/* version */ '2')
     .withSellerId('ABCD1234ADS')
     .withCountryOfEstablishment('DE')
-    .withLedgerCurrency(Currency.EUR);
+    .withLedgerCurrency('EUR');
 
 const directive = AmazonPay
     .setupDirective(payloadBuilder, 'token')
@@ -172,9 +172,9 @@ const payloadBuilder = AmazonPay.chargePayload(/* version */ '2')
     .withSellerId('ABCD1234ADS')
     .withBillingAgreementId('B02-12345-12345')
     .withAmount('50')
-    .withCurrency(Currency.EUR)
+    .withCurrency('EUR')
     .withAuthorizationReferenceId('ref')
-    .withPaymentAction(PaymentAction.AUTHORIZE);
+    .withPaymentAction('AUTHORIZE');
 
 const directive = AmazonPay
     .chargeDirective(payloadBuilder, 'token')
