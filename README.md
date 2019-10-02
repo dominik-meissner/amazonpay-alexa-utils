@@ -228,7 +228,7 @@ const AmazonPay = require('amazonpay-alexa-utils');
 
 const response = AmazonPay.askForPermissionCard('Spoken message to ask for permission enablement')
   .withAdditionalPermissions(['alexa::profile:email:read', 'alexa::profile:name:read'])
-  .send();
+  .send(handlerInput.responseBuilder);
 ```
 
 ## Amazon Pay Buyer Address API
