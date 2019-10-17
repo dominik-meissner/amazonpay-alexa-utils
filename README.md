@@ -6,7 +6,7 @@ To install it into your project, simply execute `npm i amazonpay-alexa-utils --s
 
 ## Setup API
 
-Build payloads for setup operations the easy way -  no need to know the pyload structure. The builder will take care to give you the right format.
+Build payloads for setup operations the easy way -  no need to know the payload structure. The builder will take care to give you the right format.
 
 
 Learn more about the [Amazon Pay Setup API](https://developer.amazon.com/de/docs/amazon-pay/amazon-pay-apis-for-alexa.html#setup)
