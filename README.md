@@ -251,6 +251,10 @@ Learn more about the [Amazon Pay Buyer Address API](https://developer.amazon.com
   // if you want to specify the region yourself
   const buyerAddress = await AmazonPay.getBuyerAddressForRegion(requestEnvelope, region, sellerId);
   ...
+  
+  // if you want to test in sandbox mode
+  const buyerAddress = await AmazonPay.getBuyerAddressForRegion(requestEnvelope, sellerId, 'sandbox', 'mysandbox@email.test');
+  
   }
 ```
 
