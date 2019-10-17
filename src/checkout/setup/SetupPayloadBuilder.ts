@@ -195,7 +195,7 @@ export class SetupPayloadBuilder {
 
     if (this.onSandBox) {
       sandBoxPayload = {
-        sandboxCustomerEmailId: this.sandboxSetting.email,
+        sandboxCustomerEmailId: this.sandboxSetting.eMail,
         sandboxMode: true,
       };
     }
