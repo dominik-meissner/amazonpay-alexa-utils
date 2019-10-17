@@ -69,7 +69,7 @@ console.log(JSON.stringify(payload))
 
 ## Charge API
 
-Build payloads for charge operations the easy way -  no need to know the pyload structure. The builder will take care to give you the right format.
+Build payloads for charge operations the easy way -  no need to know the payload structure. The builder will take care to give you the right format.
 
 
 Learn more about the [Amazon Pay Charge API](https://developer.amazon.com/de/docs/amazon-pay/amazon-pay-apis-for-alexa.html#charge)
